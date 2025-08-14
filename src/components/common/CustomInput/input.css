@@ -1,0 +1,46 @@
+.custom-tel-input::placeholder,
+.custom-text-input::placeholder {
+  font-size: 14px;
+  letter-spacing: -2%;
+  color: #a6a6a6;
+}
+
+.custom-text-input {
+  border-radius: 16px;
+  padding: 12px;
+  outline: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.1s ease-in-out;
+}
+
+.text-input-border:hover,
+.text-input-border:focus {
+  border: 1px solid #c8c8c8;
+}
+
+.error-text-input-border {
+  border: 1px solid #dc143c;
+}
+
+.text-input-border {
+  background-color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  background-color: white;
+  background-image: none;
+}
+
+input:-moz-autofill {
+  background-color: white;
+  background-image: none;
+}
+
+input:-ms-autofill {
+  background-color: white;
+  background-image: none;
+}
