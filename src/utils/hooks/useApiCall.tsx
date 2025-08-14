@@ -1,43 +1,52 @@
-import axios from "axios";
-import useCustomToast from "./useCustomToast";
+import axios, { AxiosResponse } from 'axios';
+import useCustomToast from './useCustomToast';
+
+type ApiResponseBase = {
+  message?: string;
+  error?: string;
+  [key: string]: unknown;
+};
 
 const useApiCall = () => {
   const customToast = useCustomToast();
-  const apiCall = async (
+
+  const apiCall = async <
+    TRequest extends Record<string, unknown>,
+    TResponse extends ApiResponseBase = ApiResponseBase
+  >(
     url: string,
-    body: any,
+    body: TRequest,
     toastDesc: {
       success: string;
       error: string;
     },
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    onSuccess: (response?: any) => void,
+    onSuccess: (response?: AxiosResponse<TResponse>) => void,
     onError: (() => void) | null
   ) => {
     setIsLoading(true);
+
     if (process.env.NEXT_PUBLIC_BASE_URL) {
       axios
-        .post(url, body)
+        .post<TResponse>(url, body)
         .then((response) => {
-          // console.log("THEN response", response);
           if (response?.status <= 400) {
             customToast({
-              type: "success",
-              desc: response?.data?.message ?? toastDesc.success,
+              type: 'success',
+              desc: response.data?.message ?? toastDesc.success,
             });
             onSuccess(response);
           } else {
             customToast({
-              type: "error",
-              desc: response?.data?.error ?? toastDesc.error,
+              type: 'error',
+              desc: response.data?.error ?? toastDesc.error,
             });
             onError?.();
           }
         })
         .catch(() => {
-          // console.log("catch block");
           customToast({
-            type: "error",
+            type: 'error',
             desc: toastDesc.error,
           });
           onError?.();

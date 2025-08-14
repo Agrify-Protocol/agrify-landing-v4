@@ -1,6 +1,5 @@
 import DashedText from '@/components/common/DashedText';
-import { Box, Flex, space, Text } from '@chakra-ui/react';
-import Image from 'next/image';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import FeatureBox from './FeatureBox';
 

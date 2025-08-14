@@ -1,6 +1,7 @@
-import { Box, Progress, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useInterval } from '@chakra-ui/react';
+import SmoothProgressBar from '@/components/home/_components/ProgressBar';
 
 export default function useRenderSteps(
   steps: Array<{ id: string; title: string; description: string }>,
@@ -27,7 +28,10 @@ export default function useRenderSteps(
   useInterval(
     () => {
       if (progress < 100) {
-        setProgress((p) => p + 10);
+        setProgress((p) => {
+          const next = p + 33.34;
+          return next >= 100 ? 100 : next;
+        });
       } else if (activeStepIndex < steps.length - 1) {
         setProgress(0);
         setActiveStepIndex((prev) => prev + 1);
@@ -69,15 +73,8 @@ export default function useRenderSteps(
       <Text fontSize="sm" color={isActive ? 'gray.700' : 'gray.500'}>
         {step.description}
       </Text>
-      {isActive && (
-        <Progress
-          value={progress}
-          size="sm"
-          colorScheme="green"
-          mt={3}
-          borderRadius="full"
-        />
-      )}
+
+      <SmoothProgressBar isActive={isActive} progress={progress} />
     </Box>
   );
 
@@ -91,5 +88,6 @@ export default function useRenderSteps(
     nonActiveSteps,
     renderStep,
     canHandleClickFunction,
+    isRunning,
   };
 }

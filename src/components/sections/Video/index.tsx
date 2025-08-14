@@ -136,6 +136,7 @@ const Video = () => {
 
   return (
     <Box
+      as="section"
       position="relative"
       rounded={{ base: '16px', lg: '24px' }}
       overflow="hidden"
@@ -143,7 +144,7 @@ const Video = () => {
       py={{ base: '16px', lg: '32px' }}
       mx={{ base: 4, lg: 8 }}
       mt={{ base: '2px', lg: '94px' }}
-      role="region"
+      h={{ base: 'auto', lg: '600px' }}
       aria-label="Video player"
     >
       <VideoPlaceHolder />
@@ -157,7 +158,8 @@ const Video = () => {
         aria-label="Agrify promotional video"
         style={{
           width: '100%',
-          height: 'auto',
+          height: '90%',
+          objectFit: 'cover',
           position: 'relative',
           zIndex: 1,
           transition: 'opacity 0.6s ease-in-out',

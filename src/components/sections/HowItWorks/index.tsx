@@ -1,13 +1,21 @@
 'use client';
 
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, VStack, HStack, Text, Image } from '@chakra-ui/react';
 import DashedText from '@/components/common/DashedText';
 import useRenderSteps from '@/utils/hooks/useRenderSteps';
 import { useInView } from 'react-intersection-observer';
-import { useEffect, useMemo, useState, useRef, useLayoutEffect } from 'react';
-import { motion, AnimatePresence, Easing } from 'framer-motion';
+import { useStickyScroll } from '@/utils/hooks/useStickyScroll';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const steps = [
+interface Step {
+  id: string;
+  title: string;
+  description: string;
+}
+
+// --- Data (Colocated and improved structure) ---
+const HOW_IT_WORKS_STEPS: Step[] = [
   {
     id: '01',
     title: 'Receive Regenerative Tasks',
@@ -34,43 +42,124 @@ const steps = [
   },
 ];
 
-const stepImages = [
-  { id: '01', src: '/images/how_it_works.svg' },
-  { id: '02', src: '/images/how_it_works.svg' },
-  { id: '03', src: '/images/tomatoes.png' },
-  { id: '04', src: '/images/how_it_works.svg' },
+const STEP_IMAGES = [
+  {
+    id: '01',
+    src: '/images/how_it_works.svg',
+    alt: 'Farmers receiving regenerative tasks on mobile',
+  },
+  {
+    id: '02',
+    src: '/images/second_step.svg',
+    alt: 'Uploading proof of task completion',
+  },
+  {
+    id: '03',
+    src: '/images/third_step.svg',
+    alt: 'Digital traceability story generation',
+  },
+  {
+    id: '04',
+    src: '/images/fourth_step.svg',
+    alt: 'Connecting with sustainable buyers',
+  },
 ];
 
-const stepAnimationVariants = {
-  enter: {
-    y: -20,
-    opacity: 0,
-  },
-  center: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.2,
-      ease: 'easeOut' as Easing,
-    },
-  },
-  exit: {
-    y: 20,
-    opacity: 0,
-    transition: {
-      duration: 0.15,
-      ease: 'easeIn' as Easing,
-    },
-  },
-};
+// **FIX**: Defines the return type of the `useRenderSteps` hook
 
-const MotionDiv = motion.div;
+// --- Memoized Presentational Components ---
+
+const Header: React.FC = React.memo(() => (
+  <Box mb={8}>
+    <Box w="fit-content" mb={4}>
+      <DashedText text="Regenerative Intelligence" />
+    </Box>
+    <Text
+      fontSize={{ base: '26px', lg: '48px' }}
+      fontWeight="200"
+      fontFamily="var(--font-pangaia)"
+      lineHeight="121%"
+      color="brand.primaryBlack"
+    >
+      How It Works
+    </Text>
+  </Box>
+));
+
+Header.displayName = 'Header';
+
+const StepImage = React.memo(({ src, alt }: { src: string; alt: string }) => (
+  <Image
+    src={src}
+    alt={alt}
+    borderRadius="lg"
+    objectFit="cover"
+    w="100%"
+    maxH={{ base: '300px', lg: '500px' }}
+    transition="opacity 0.3s ease"
+    // loading="lazy"
+  />
+));
+
+StepImage.displayName = 'StepImage';
+
+interface StepsLayoutProps {
+  renderStep: (step: Step, isActive?: boolean) => React.ReactNode;
+  activeStep: Step;
+  nonActiveSteps: Step[];
+  currentImageSrc: string;
+  currentImageAlt: string;
+  isMobile: boolean;
+}
+
+const StepsLayout = React.memo(
+  ({
+    renderStep,
+    activeStep,
+    nonActiveSteps,
+    currentImageSrc,
+    currentImageAlt,
+    isMobile,
+  }: StepsLayoutProps) => {
+    const StepContent = (
+      <VStack spacing={8} align="stretch" flex="1" minW="0">
+        {renderStep(activeStep, true)}
+        <VStack spacing={6} align="stretch" opacity={0.5}>
+          {nonActiveSteps.map((step) => renderStep(step, false))}
+        </VStack>
+      </VStack>
+    );
+
+    if (isMobile) {
+      return (
+        <VStack spacing={8} align="stretch">
+          {StepContent}
+          <StepImage src={currentImageSrc} alt={currentImageAlt} />
+        </VStack>
+      );
+    }
+
+    return (
+      <HStack spacing={12} align="flex-start">
+        {StepContent}
+        <Box flex="1" minW="0">
+          <StepImage src={currentImageSrc} alt={currentImageAlt} />
+        </Box>
+      </HStack>
+    );
+  }
+);
+
+StepsLayout.displayName = 'StepsLayout';
+
+// --- Main Component ---
 
 export default function HowItWorks() {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
+  const containerRef = useRef(null);
+  const stickyContentRef = useRef(null);
+  const [isLastStepComplete, setIsLastStepComplete] = useState(false);
+
+  const { ref: inViewRef, inView } = useInView({ threshold: 0.1 });
 
   const {
     renderStep,
@@ -79,139 +168,173 @@ export default function HowItWorks() {
     nonActiveSteps,
     activeStepIndex,
     progress,
-    canHandleClickFunction,
-  } = useRenderSteps(steps, inView);
+    isRunning,
+  } = useRenderSteps(HOW_IT_WORKS_STEPS, inView);
 
-  const [isFixed, setIsFixed] = useState(false);
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
 
-  const isLastStep = activeStepIndex === steps.length - 1;
-  const isLastStepComplete = isLastStep && progress >= 100;
-  const topGap = 20;
+    const completedNow =
+      activeStepIndex === HOW_IT_WORKS_STEPS.length - 1 && progress >= 100;
 
-  const fixedBoxRef = useRef<HTMLDivElement>(null);
-  const [fixedBoxHeight, setFixedBoxHeight] = useState(0);
-
-  useLayoutEffect(() => {
-    if (fixedBoxRef.current && isFixed) {
-      setFixedBoxHeight(fixedBoxRef.current.offsetHeight + topGap);
+    if (completedNow) {
+      timeoutId = setTimeout(() => {
+        setIsLastStepComplete(true);
+      }, 1000);
     } else {
-      setFixedBoxHeight(0);
+      setIsLastStepComplete(false);
     }
-  }, [isFixed, activeStepIndex, progress]);
 
-  const imageToRender = useMemo(
-    () => stepImages[activeStepIndex],
+    return () => clearTimeout(timeoutId);
+  }, [activeStepIndex, progress]);
+
+  const { isSticky } = useStickyScroll({
+    containerRef,
+    contentRef: stickyContentRef,
+    isEnabled: isRunning,
+    isLastStepCompleted: isLastStepComplete,
+  });
+
+  const currentImage = useMemo(
+    () => STEP_IMAGES[activeStepIndex],
     [activeStepIndex]
   );
 
-  useEffect(() => {
-    if (inView && !isLastStepComplete && !canHandleClickFunction) {
-      setIsFixed(true);
-    } else {
-      setIsFixed(false);
-    }
-  }, [inView, isLastStepComplete, canHandleClickFunction]);
-
-  useEffect(() => {
-    if (isFixed) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isFixed]);
-
-  const Header = () => (
-    <>
-      <Box w="fit-content">
-        <DashedText text="Regenerative Intelligence" />
-      </Box>
-      <Text
-        fontSize={{ base: '26px', lg: '48px' }}
-        fontWeight="200"
-        fontFamily="var(--font-pangaia)"
-        lineHeight="121%"
-        px="8px"
-        py={{ base: '2px', lg: '16px' }}
-        color={'brand.primaryBlack'}
-      >
-        How It Works
-      </Text>
-    </>
-  );
-
-  const RenderStepMobile = () => (
-    <VStack spacing={8} align="stretch">
-      {renderStep(activeStep, true)}
-
-      <Image
-        src={imageToRender.src}
-        alt="Step preview"
-        borderRadius="lg"
-        objectFit="cover"
-        w="100%"
-      />
-
-      <VStack spacing={6} align="stretch" opacity={0.5}>
-        {nonActiveSteps.map((step) => renderStep(step))}
-      </VStack>
-    </VStack>
-  );
-
-  const RenderStepDesktop = () => (
-    <HStack spacing={10} align="flex-start">
-      <VStack spacing={8} align="stretch" flex="1">
-        {renderStep(activeStep, true)}
-        <VStack spacing={6} align="stretch" opacity={0.5}>
-          {nonActiveSteps.map((step) => renderStep(step))}
-        </VStack>
-      </VStack>
-
-      <Box flex="1">
-        <Image
-          src={imageToRender.src}
-          alt="Step preview"
-          borderRadius="lg"
-          objectFit="cover"
-          w="100%"
-        />
-      </Box>
-    </HStack>
-  );
-
-  const RenderStepByScreenResolution = () => (
-    <Box
-      ref={fixedBoxRef}
-      position={isFixed ? 'fixed' : 'relative'}
-      top={isFixed ? `${topGap}px` : 'auto'}
-      left={isFixed ? '50%' : 'auto'}
-      transform={isFixed ? 'translateX(-50%)' : 'none'}
-      zIndex={10}
-      bg={isFixed ? 'white' : ''}
-      maxW="6xl"
-      mx="auto"
-      p={6}
-      w="100%"
-    >
-      <Header />
-      {isMobile ? <RenderStepMobile /> : <RenderStepDesktop />}
-    </Box>
-  );
-
   return (
-    <Box
-      mt={{ base: '44px', lg: '94px' }}
-      minW={{ base: '376px' }}
-      maxW={{ lg: '1024px' }}
-      mx="auto"
-      ref={ref}
-      w="100%"
-      px={{ base: '16px', lg: '18px' }}
-      py={isFixed ? `${fixedBoxHeight}px` : 0}
+    <motion.div
+      ref={containerRef}
+      style={{
+        marginTop: '60px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+        width: '100%',
+        position: 'relative',
+      }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.8,
+        ease: [0.4, 0, 0.2, 1],
+        type: 'spring',
+        stiffness: 100,
+        damping: 20,
+      }}
     >
-      <RenderStepByScreenResolution />
-    </Box>
+      <div
+        ref={inViewRef}
+        style={{
+          position: 'absolute',
+          top: '20vh',
+          height: '60vh',
+        }}
+      />
+      <motion.div
+        ref={stickyContentRef}
+        style={{
+          maxWidth: '72rem',
+          margin: '0 auto',
+          backgroundColor: 'white',
+          borderRadius: '0.75rem',
+          padding: '1rem',
+          position: isSticky ? 'sticky' : 'relative',
+          top: isSticky ? '20px' : 'auto',
+          zIndex: isSticky ? 1000 : 'auto',
+        }}
+        animate={{
+          boxShadow: isSticky
+            ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            : '0 0 0 0 rgba(0, 0, 0, 0)',
+          borderWidth: isSticky ? '1px' : '0px',
+          borderColor: isSticky ? 'rgba(243, 244, 246, 1)' : 'rgba(0, 0, 0, 0)',
+          y: isSticky ? 0 : 20,
+          scale: isSticky ? 1 : 0.98,
+        }}
+        transition={{
+          duration: 0.6,
+          ease: [0.4, 0, 0.2, 1],
+          type: 'spring',
+          stiffness: 200,
+          damping: 30,
+        }}
+      >
+        <AnimatePresence>
+          {isSticky && (
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{
+                opacity: [0.7, 1, 0.7],
+                scaleX: [0, 1, 1],
+                backgroundColor: [
+                  'rgba(34, 197, 94, 1)',
+                  'rgba(22, 163, 74, 1)',
+                  'rgba(34, 197, 94, 1)',
+                ],
+              }}
+              exit={{ opacity: 0, scaleX: 0 }}
+              transition={{
+                opacity: { repeat: Infinity, duration: 2, ease: 'easeInOut' },
+                backgroundColor: {
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: 'easeInOut',
+                },
+                scaleX: { duration: 0.3, ease: 'easeOut' },
+              }}
+              style={{
+                position: 'absolute',
+                top: '-10px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '60px',
+                height: '4px',
+                borderRadius: '9999px',
+                transformOrigin: 'center',
+              }}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Pulsing border animation when sticky */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 'inherit',
+            pointerEvents: 'none',
+          }}
+          animate={
+            isSticky
+              ? {
+                  borderColor: [
+                    'rgba(229, 231, 235, 1)',
+                    'rgba(134, 239, 172, 1)',
+                    'rgba(229, 231, 235, 1)',
+                  ],
+                }
+              : {}
+          }
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          initial={{
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'transparent',
+          }}
+        />
+
+        <Header />
+        <StepsLayout
+          renderStep={renderStep}
+          activeStep={activeStep}
+          nonActiveSteps={nonActiveSteps}
+          currentImageSrc={currentImage.src}
+          currentImageAlt={currentImage.alt}
+          isMobile={isMobile as boolean}
+        />
+      </motion.div>
+    </motion.div>
   );
 }

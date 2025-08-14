@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import countryList from "../../../../const/countryList.json";
-import getCountryCodeValue from "./getCountryCodeValue";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import countryList from '../../../../const/countryList.json';
+import getCountryCodeValue from './getCountryCodeValue';
 import {
   validateEmail,
   validateFarmSize,
   validateNameInput,
   validatePhoneNumber,
-} from "@/utils/validationSchema";
-import { sendGAEvent } from "@next/third-parties/google";
-import useApiCall from "@/utils/hooks/useApiCall";
+} from '@/utils/validationSchema';
+import { sendGAEvent } from '@next/third-parties/google';
+import useApiCall from '@/utils/hooks/useApiCall';
+import { Country } from '../CountryModal';
 
 interface UserDetailsProp {
   full_name: string;
@@ -25,20 +26,29 @@ const useWaitlistLogic = () => {
   const router = useRouter();
   const { apiCall } = useApiCall();
   const [farmLocationModalOpen, setFarmLocationModalOpen] = useState(false);
-  const [selectedFarmLocation, setSelectedFarmLocation] = useState({
-    name: {
-      common: "",
-    },
+  // const [selectedFarmLocation, setSelectedFarmLocation] = useState({
+  //   name: {
+  //     common: '',
+  //   },
+  // });
+
+  const [selectedFarmLocation, setSelectedFarmLocation] = useState<Country>({
+    flag: '',
+    name: { common: '' },
+    idd: { root: '', suffixes: [] },
   });
   const [openCountryModal, setOpenCountryModal] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countryList[0]);
+  // const [selectedCountry, setSelectedCountry] = useState(countryList[0]);
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    countryList[0] ?? null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetailsProp>({
-    full_name: "",
-    phone_number: "",
-    email: "",
-    farm_country: "",
-    farm_size: "",
+    full_name: '',
+    phone_number: '',
+    email: '',
+    farm_country: '',
+    farm_size: '',
   });
   const [isInputInvalid, setIsInputInvalid] = useState({
     full_name: false,
@@ -53,22 +63,33 @@ const useWaitlistLogic = () => {
       value: string;
     };
   }) => {
-    const setIsValidFn = (fn: (e: any) => void) => {
-      setIsInputInvalid((prev) => ({
-        ...prev,
-        [e.target.name]: fn(e.target.value),
-      }));
+    // const setIsValidFn = (fn: (e: any) => void) => {
+
+    //   setIsInputInvalid((prev) => ({
+    //     ...prev,
+    //     [e.target.name]: fn(e.target.value),
+    //   }));
+    // };
+
+    const setIsValidFn = (fn: (value: string) => boolean) => {
+      return (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsInputInvalid((prev) => ({
+          ...prev,
+          [e.target.name]: fn(e.target.value),
+        }));
+      };
     };
+
     setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
     switch (e.target.name) {
-      case "full_name":
+      case 'full_name':
         return setIsValidFn(validateNameInput);
-      case "email":
+      case 'email':
         return setIsValidFn(validateEmail);
-      case "phone_number":
+      case 'phone_number':
         return setIsValidFn(validatePhoneNumber);
-      case "farm_size":
+      case 'farm_size':
         return setIsValidFn(validateFarmSize);
       default:
         break;
@@ -76,10 +97,10 @@ const useWaitlistLogic = () => {
   };
 
   const joinWaitList = () => {
-    sendGAEvent("event", "join-waitlist", { value: "join" });
+    sendGAEvent('event', 'join-waitlist', { value: 'join' });
 
     const userNumber =
-      userDetails.phone_number.charAt(0) === "0"
+      userDetails.phone_number.charAt(0) === '0'
         ? userDetails.phone_number.slice(1)
         : userDetails.phone_number;
     const newUserDetails = {
@@ -93,18 +114,18 @@ const useWaitlistLogic = () => {
       newUserDetails,
       {
         success: "You've been added to our waitlist.",
-        error: "Something went wrong. Try again.",
+        error: 'Something went wrong. Try again.',
       },
       setIsLoading,
       () => {
         setUserDetails({
-          full_name: "",
-          phone_number: "",
-          email: "",
-          farm_country: "",
-          farm_size: "",
+          full_name: '',
+          phone_number: '',
+          email: '',
+          farm_country: '',
+          farm_size: '',
         });
-        router.push("/waitlist-confirmed");
+        router.push('/waitlist-confirmed');
       },
       null
     );
@@ -114,7 +135,7 @@ const useWaitlistLogic = () => {
     delete userDetails?.farm_country;
     return (
       Object.values(isInputInvalid).some((value) => value === true) ||
-      Object.values(userDetails).some((value) => value === "") ||
+      Object.values(userDetails).some((value) => value === '') ||
       !selectedFarmLocation.name.common
     );
   };

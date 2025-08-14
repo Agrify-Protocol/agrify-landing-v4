@@ -1,5 +1,4 @@
 import { Box, Flex, useBreakpointValue } from '@chakra-ui/react';
-import { transform } from 'next/dist/build/swc/generated-native';
 import Image from 'next/image';
 import React from 'react';
 

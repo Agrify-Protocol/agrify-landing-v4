@@ -1,8 +1,8 @@
 'use client';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import dltScience from '../../../../public/icons/collaborators/dlt.png';
 import nasa from '../../../../public/icons/collaborators/nasa.png';
 import hbar from '../../../../public/icons/collaborators/HBAR_Logo.png';
@@ -15,7 +15,6 @@ import gemma from '../../../../public/icons/collaborators/gemma.png';
 import mercyCorps from '../../../../public/icons/collaborators/mercy_corps.png';
 import xCommons from '../../../../public/icons/collaborators/commons.png';
 import '../../animation.css';
-import { GoDotFill } from 'react-icons/go';
 import DashedText from '@/components/common/DashedText';
 
 const collaborators = [
@@ -73,24 +72,25 @@ const collaborators = [
 ];
 
 const Partners = () => {
-  const [currentItem, setCurrentItem] = useState('');
+  // const [currentItem, setCurrentItem] = useState('');
 
-  const getCurrentDisplayIcon = (item: {
-    name: string;
-    icon: string;
-    active_icon: string;
-  }) => {
-    if (currentItem === item.name) {
-      if (item.active_icon !== null) {
-        return item.icon;
-        // return item.active_icon;
-      } else {
-        return item.icon;
-      }
-    } else {
-      return item.icon;
-    }
-  };
+  // const getCurrentDisplayIcon = (item: {
+  //   name: string;
+  //   icon: string;
+  //   active_icon: string;
+  // }) => {
+  //   if (currentItem === item.name) {
+  //     if (item.active_icon !== null) {
+  //       return item.icon;
+  //       // return item.active_icon;
+  //     } else {
+  //       return item.icon;
+  //     }
+  //   } else {
+  //     return item.icon;
+  //   }
+  // };
+
   return (
     <Box mt={{ base: '88px', lg: '120px' }} id="climate-change">
       <DashedText text="Partners" />
@@ -112,8 +112,10 @@ const Partners = () => {
             .map((item, index) => (
               <Box
                 key={index}
-                onMouseEnter={() => setCurrentItem(item.name)}
-                onMouseLeave={() => setCurrentItem('')}
+                // onMouseEnter={() => setCurrentItem(item.name)}
+                // onMouseLeave={() => setCurrentItem('')}
+                onMouseEnter={() => console.log(item.name)}
+                onMouseLeave={() => console.log('leave')}
                 flexShrink={0}
                 transitionDelay="0.1s"
                 transitionProperty="opacity"
@@ -136,10 +138,3 @@ const Partners = () => {
 };
 
 export default Partners;
-
-// sx={{
-//           '& img': {
-//             filter: 'brightness(0) saturate(100%) invert(25%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)',
-//             transition: 'filter 0.3s ease'
-//           }
-//         }}
