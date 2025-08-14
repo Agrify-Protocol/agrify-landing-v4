@@ -213,6 +213,7 @@ const JoinForm = () => {
 
   return (
     <Box
+    id="join-waitlist"
       my={{ base: '20px', lg: '200px' }}
       as="form"
       maxW="558px"

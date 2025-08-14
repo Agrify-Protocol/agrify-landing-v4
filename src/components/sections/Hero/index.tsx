@@ -52,6 +52,16 @@ const Hero = () => {
           fontWeight="normal"
           bg="brand.green"
           color="white"
+           onClick={() => {
+                    const joinSection =
+                      document.querySelector("#join-waitlist");
+                    if (joinSection) {
+                      joinSection.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    }
+                  }}
         >
           Talk to Us
         </Button>
