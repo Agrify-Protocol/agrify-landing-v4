@@ -1,3 +1,4 @@
+
 // 'use client';
 
 // import { Loader } from '@/components/common/Loader';
@@ -10,22 +11,52 @@
 //   VisuallyHidden,
 // } from '@chakra-ui/react';
 // import { MdForward10, MdReplay10, MdPlayArrow } from 'react-icons/md';
-// import React, { useState, useRef } from 'react';
+// import React, { useState, useRef, useEffect } from 'react';
 
 // const Video = () => {
 //   const [loading, setLoading] = useState(true);
 //   const [isPlaying, setIsPlaying] = useState(false);
 //   const [hasError, setHasError] = useState(false);
+//   const [isMobile, setIsMobile] = useState(false);
 //   const videoRef = useRef<HTMLVideoElement>(null);
+//   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-//   React.useEffect(() => {
+//   useEffect(() => {
+//     // Detect mobile device
+//     const checkMobile = () => {
+//       setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+//     };
+    
+//     checkMobile();
+//     window.addEventListener('resize', checkMobile);
+    
+//     return () => {
+//       window.removeEventListener('resize', checkMobile);
+//       if (loadingTimeoutRef.current) {
+//         clearTimeout(loadingTimeoutRef.current);
+//       }
+//     };
+//   }, []);
+
+//   useEffect(() => {
 //     const video = videoRef.current;
 //     if (video) {
+//       // Set loading timeout - if video doesn't load in 10 seconds, show error
+//       loadingTimeoutRef.current = setTimeout(() => {
+//         if (loading) {
+//           setLoading(false);
+//           setHasError(true);
+//         }
+//       }, 10000);
+
 //       if (video.readyState >= 3) {
 //         setLoading(false);
+//         if (loadingTimeoutRef.current) {
+//           clearTimeout(loadingTimeoutRef.current);
+//         }
 //       }
 //     }
-//   }, []);
+//   }, [loading]);
 
 //   const handlePlay = () => setIsPlaying(true);
 //   const handlePause = () => setIsPlaying(false);
@@ -38,16 +69,26 @@
 //   const handleCanPlay = () => {
 //     setLoading(false);
 //     setHasError(false);
+//     if (loadingTimeoutRef.current) {
+//       clearTimeout(loadingTimeoutRef.current);
+//     }
 //   };
 
 //   const handleLoadedData = () => {
 //     setLoading(false);
 //     setHasError(false);
+//     if (loadingTimeoutRef.current) {
+//       clearTimeout(loadingTimeoutRef.current);
+//     }
 //   };
 
-//   const handleError = () => {
+//   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+//     console.error('Video error:', e);
 //     setLoading(false);
 //     setHasError(true);
+//     if (loadingTimeoutRef.current) {
+//       clearTimeout(loadingTimeoutRef.current);
+//     }
 //   };
 
 //   const rewind10 = () => {
@@ -68,13 +109,33 @@
 //     }
 //   };
 
-//   const togglePlayPause = () => {
+//   const togglePlayPause = async () => {
 //     if (videoRef.current) {
-//       if (isPlaying) {
-//         videoRef.current.pause();
-//       } else {
-//         videoRef.current.play();
+//       try {
+//         if (isPlaying) {
+//           videoRef.current.pause();
+//         } else {
+//           // For mobile, we might need to reload the video source
+//           if (isMobile && hasError) {
+//             videoRef.current.load();
+//             setLoading(true);
+//             setHasError(false);
+//           }
+//           await videoRef.current.play();
+//         }
+//       } catch (error) {
+//         console.error('Play error:', error);
+//         setHasError(true);
+//         setLoading(false);
 //       }
+//     }
+//   };
+
+//   const retryVideo = () => {
+//     if (videoRef.current) {
+//       setLoading(true);
+//       setHasError(false);
+//       videoRef.current.load();
 //     }
 //   };
 
@@ -154,7 +215,10 @@
 //         src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1754756417/Agrify_Ad_uvggx0.mp4"
 //         controls
 //         controlsList="nodownload"
-//         preload="metadata"
+//         preload={isMobile ? "none" : "metadata"}
+//         playsInline
+//         webkit-playsinline="true"
+//         muted={isMobile}
 //         aria-label="Agrify promotional video"
 //         style={{
 //           width: '100%',
@@ -206,7 +270,14 @@
 //           borderRadius="md"
 //           color="white"
 //         >
-//           <Text>Error loading video. Please try again.</Text>
+//           <Text mb={3}>Error loading video. Please try again.</Text>
+//           <IconButton
+//             aria-label="Retry loading video"
+//             icon={<MdPlayArrow />}
+//             onClick={retryVideo}
+//             colorScheme="blue"
+//             size="sm"
+//           />
 //         </Box>
 //       )}
 
@@ -269,6 +340,7 @@ const Video = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -291,7 +363,7 @@ const Video = () => {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
+    if (video && !isMobile) {
       // Set loading timeout - if video doesn't load in 10 seconds, show error
       loadingTimeoutRef.current = setTimeout(() => {
         if (loading) {
@@ -307,13 +379,16 @@ const Video = () => {
         }
       }
     }
-  }, [loading]);
+  }, [loading, isMobile]);
 
   const handlePlay = () => setIsPlaying(true);
   const handlePause = () => setIsPlaying(false);
 
   const handleLoadStart = () => {
-    setLoading(true);
+    // Only set loading if user has interacted or it's desktop
+    if (!isMobile || userInteracted) {
+      setLoading(true);
+    }
     setHasError(false);
   };
 
@@ -363,9 +438,21 @@ const Video = () => {
   const togglePlayPause = async () => {
     if (videoRef.current) {
       try {
+        // Mark that user has interacted
+        setUserInteracted(true);
+        
         if (isPlaying) {
           videoRef.current.pause();
         } else {
+          // For mobile first-time load, start loading timeout here
+          if (isMobile && !userInteracted) {
+            setLoading(true);
+            loadingTimeoutRef.current = setTimeout(() => {
+              setLoading(false);
+              setHasError(true);
+            }, 8000); // Shorter timeout for user-initiated actions
+          }
+          
           // For mobile, we might need to reload the video source
           if (isMobile && hasError) {
             videoRef.current.load();
@@ -384,8 +471,16 @@ const Video = () => {
 
   const retryVideo = () => {
     if (videoRef.current) {
+      setUserInteracted(true);
       setLoading(true);
       setHasError(false);
+      
+      // Set timeout for retry attempt
+      loadingTimeoutRef.current = setTimeout(() => {
+        setLoading(false);
+        setHasError(true);
+      }, 8000);
+      
       videoRef.current.load();
     }
   };
