@@ -342,6 +342,7 @@ const Video = () => {
   const [userInteracted, setUserInteracted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const firstLoadRef = useRef(true); // Track first load attempt
 
   useEffect(() => {
     // Detect mobile device
@@ -358,11 +359,17 @@ const Video = () => {
 
     return () => {
       window.removeEventListener("resize", checkMobile);
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
+      clearLoadingTimeout();
     };
   }, []);
+
+  // Clear timeout helper
+  const clearLoadingTimeout = () => {
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+      loadingTimeoutRef.current = null;
+    }
+  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -377,9 +384,7 @@ const Video = () => {
 
       if (video.readyState >= 3) {
         setLoading(false);
-        if (loadingTimeoutRef.current) {
-          clearTimeout(loadingTimeoutRef.current);
-        }
+        clearLoadingTimeout();
       }
     }
   }, [loading, isMobile]);
@@ -391,18 +396,16 @@ const Video = () => {
     // Only set loading if user has interacted or it's desktop
     if (!isMobile || userInteracted) {
       setLoading(true);
+      clearLoadingTimeout();
 
-      // Set timeout only when loading actually starts
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
-
+      // Set longer timeout for mobile (20s) vs desktop (12s)
+      const timeoutDuration = isMobile ? 20000 : 12000;
       loadingTimeoutRef.current = setTimeout(() => {
         if (loading) {
           setLoading(false);
           setHasError(true);
         }
-      }, 12000); // Longer timeout for natural loading
+      }, timeoutDuration);
     }
     setHasError(false);
   };
@@ -410,33 +413,27 @@ const Video = () => {
   const handleCanPlay = () => {
     setLoading(false);
     setHasError(false);
-    if (loadingTimeoutRef.current) {
-      clearTimeout(loadingTimeoutRef.current);
-    }
+    clearLoadingTimeout();
   };
 
   const handleLoadedData = () => {
     setLoading(false);
     setHasError(false);
-    if (loadingTimeoutRef.current) {
-      clearTimeout(loadingTimeoutRef.current);
-    }
+    clearLoadingTimeout();
   };
 
   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     console.error("Video error:", e);
 
-    // Don't immediately show error on mobile first attempt
-    // Some mobile browsers trigger error events during normal loading
-    if (isMobile && !userInteracted) {
+    // Special handling for first load attempt on mobile
+    if (isMobile && firstLoadRef.current) {
+      firstLoadRef.current = false;
       return;
     }
 
     setLoading(false);
     setHasError(true);
-    if (loadingTimeoutRef.current) {
-      clearTimeout(loadingTimeoutRef.current);
-    }
+    clearLoadingTimeout();
   };
 
   const rewind10 = () => {
@@ -468,26 +465,20 @@ const Video = () => {
         if (isPlaying) {
           videoRef.current.pause();
         } else {
-          // Clear any existing timeout
-          if (loadingTimeoutRef.current) {
-            clearTimeout(loadingTimeoutRef.current);
-          }
-
-          // For mobile, we might need to reload the video source
-          if (isMobile && hasError) {
+          clearLoadingTimeout();
+          
+          // Special handling for mobile first attempt
+          if (isMobile && firstLoadRef.current) {
             videoRef.current.load();
             setLoading(true);
             setHasError(false);
-
-            // Only set timeout after reload
+            firstLoadRef.current = false;
+            
+            // Set longer timeout for first mobile attempt
             loadingTimeoutRef.current = setTimeout(() => {
               setLoading(false);
               setHasError(true);
-            }, 10000);
-          } else if (isMobile && !hasError) {
-            // First time playing on mobile - don't set timeout immediately
-            // Let the video events handle the loading state
-            setHasError(false);
+            }, 20000);
           }
 
           await videoRef.current.play();
@@ -513,17 +504,16 @@ const Video = () => {
       setUserInteracted(true);
       setLoading(true);
       setHasError(false);
+      firstLoadRef.current = false; // Mark first attempt completed
 
-      // Clear any existing timeout
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
+      clearLoadingTimeout();
 
-      // Set timeout for retry attempt
+      // Set timeout for retry attempt (20s for mobile)
+      const timeoutDuration = isMobile ? 20000 : 10000;
       loadingTimeoutRef.current = setTimeout(() => {
         setLoading(false);
         setHasError(true);
-      }, 10000);
+      }, timeoutDuration);
 
       videoRef.current.load();
     }
