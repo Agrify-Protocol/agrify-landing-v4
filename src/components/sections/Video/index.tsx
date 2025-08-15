@@ -1,4 +1,3 @@
-
 // 'use client';
 
 // import { Loader } from '@/components/common/Loader';
@@ -26,10 +25,10 @@
 //     const checkMobile = () => {
 //       setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 //     };
-    
+
 //     checkMobile();
 //     window.addEventListener('resize', checkMobile);
-    
+
 //     return () => {
 //       window.removeEventListener('resize', checkMobile);
 //       if (loadingTimeoutRef.current) {
@@ -321,9 +320,9 @@
 
 // export default Video;
 
-'use client';
+"use client";
 
-import { Loader } from '@/components/common/Loader';
+import { Loader } from "@/components/common/Loader";
 import {
   Box,
   Image as ChakraImage,
@@ -331,9 +330,9 @@ import {
   HStack,
   Text,
   VisuallyHidden,
-} from '@chakra-ui/react';
-import { MdForward10, MdReplay10, MdPlayArrow } from 'react-icons/md';
-import React, { useState, useRef, useEffect } from 'react';
+} from "@chakra-ui/react";
+import { MdForward10, MdReplay10, MdPlayArrow } from "react-icons/md";
+import React, { useState, useRef, useEffect } from "react";
 
 const Video = () => {
   const [loading, setLoading] = useState(true);
@@ -347,14 +346,18 @@ const Video = () => {
   useEffect(() => {
     // Detect mobile device
     const checkMobile = () => {
-      setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      setIsMobile(
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      );
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
+    window.addEventListener("resize", checkMobile);
+
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
       if (loadingTimeoutRef.current) {
         clearTimeout(loadingTimeoutRef.current);
       }
@@ -388,6 +391,18 @@ const Video = () => {
     // Only set loading if user has interacted or it's desktop
     if (!isMobile || userInteracted) {
       setLoading(true);
+
+      // Set timeout only when loading actually starts
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+      }
+
+      loadingTimeoutRef.current = setTimeout(() => {
+        if (loading) {
+          setLoading(false);
+          setHasError(true);
+        }
+      }, 12000); // Longer timeout for natural loading
     }
     setHasError(false);
   };
@@ -409,7 +424,14 @@ const Video = () => {
   };
 
   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error('Video error:', e);
+    console.error("Video error:", e);
+
+    // Don't immediately show error on mobile first attempt
+    // Some mobile browsers trigger error events during normal loading
+    if (isMobile && !userInteracted) {
+      return;
+    }
+
     setLoading(false);
     setHasError(true);
     if (loadingTimeoutRef.current) {
@@ -439,31 +461,48 @@ const Video = () => {
     if (videoRef.current) {
       try {
         // Mark that user has interacted
-        setUserInteracted(true);
-        
+        if (!userInteracted) {
+          setUserInteracted(true);
+        }
+
         if (isPlaying) {
           videoRef.current.pause();
         } else {
-          // For mobile first-time load, start loading timeout here
-          if (isMobile && !userInteracted) {
-            setLoading(true);
-            loadingTimeoutRef.current = setTimeout(() => {
-              setLoading(false);
-              setHasError(true);
-            }, 8000); // Shorter timeout for user-initiated actions
+          // Clear any existing timeout
+          if (loadingTimeoutRef.current) {
+            clearTimeout(loadingTimeoutRef.current);
           }
-          
+
           // For mobile, we might need to reload the video source
           if (isMobile && hasError) {
             videoRef.current.load();
             setLoading(true);
             setHasError(false);
+
+            // Only set timeout after reload
+            loadingTimeoutRef.current = setTimeout(() => {
+              setLoading(false);
+              setHasError(true);
+            }, 10000);
+          } else if (isMobile && !hasError) {
+            // First time playing on mobile - don't set timeout immediately
+            // Let the video events handle the loading state
+            setHasError(false);
           }
+
           await videoRef.current.play();
         }
       } catch (error) {
-        console.error('Play error:', error);
-        setHasError(true);
+        console.error("Play error:", error);
+        // Only show error if it's not a user gesture issue
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "name" in error &&
+          (error as { name?: string }).name !== "NotAllowedError"
+        ) {
+          setHasError(true);
+        }
         setLoading(false);
       }
     }
@@ -474,13 +513,18 @@ const Video = () => {
       setUserInteracted(true);
       setLoading(true);
       setHasError(false);
-      
+
+      // Clear any existing timeout
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+      }
+
       // Set timeout for retry attempt
       loadingTimeoutRef.current = setTimeout(() => {
         setLoading(false);
         setHasError(true);
-      }, 8000);
-      
+      }, 10000);
+
       videoRef.current.load();
     }
   };
@@ -502,15 +546,15 @@ const Video = () => {
             tabIndex={0}
             aria-label="Play video"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 togglePlayPause();
               }
             }}
             _focus={{
-              outline: '2px solid',
-              outlineColor: 'blue.500',
-              outlineOffset: '2px',
+              outline: "2px solid",
+              outlineColor: "blue.500",
+              outlineOffset: "2px",
             }}
             _hover={{
               opacity: 0.9,
@@ -545,13 +589,13 @@ const Video = () => {
     <Box
       as="section"
       position="relative"
-      rounded={{ base: '16px', lg: '24px' }}
+      rounded={{ base: "16px", lg: "24px" }}
       overflow="hidden"
-      px={{ base: '16px', lg: '60px' }}
-      py={{ base: '16px', lg: '32px' }}
+      px={{ base: "16px", lg: "60px" }}
+      py={{ base: "16px", lg: "32px" }}
       mx={{ base: 4, lg: 8 }}
-      mt={{ base: '2px', lg: '94px' }}
-      h={{ base: 'auto', lg: '600px' }}
+      mt={{ base: "2px", lg: "94px" }}
+      h={{ base: "auto", lg: "600px" }}
       aria-label="Video player"
     >
       <VideoPlaceHolder />
@@ -567,12 +611,12 @@ const Video = () => {
         muted={isMobile}
         aria-label="Agrify promotional video"
         style={{
-          width: '100%',
-          height: '90%',
-          objectFit: 'cover',
-          position: 'relative',
+          width: "100%",
+          height: "90%",
+          objectFit: "cover",
+          position: "relative",
           zIndex: 1,
-          transition: 'opacity 0.6s ease-in-out',
+          transition: "opacity 0.6s ease-in-out",
           opacity: loading ? 0 : 1,
         }}
         onLoadStart={handleLoadStart}
@@ -642,9 +686,9 @@ const Video = () => {
           isRound
           isDisabled={loading || hasError}
           _focus={{
-            outline: '2px solid',
-            outlineColor: 'yellow.500',
-            outlineOffset: '2px',
+            outline: "2px solid",
+            outlineColor: "yellow.500",
+            outlineOffset: "2px",
           }}
         />
         <IconButton
@@ -655,9 +699,9 @@ const Video = () => {
           isRound
           isDisabled={loading || hasError}
           _focus={{
-            outline: '2px solid',
-            outlineColor: 'green.500',
-            outlineOffset: '2px',
+            outline: "2px solid",
+            outlineColor: "green.500",
+            outlineOffset: "2px",
           }}
         />
       </HStack>
