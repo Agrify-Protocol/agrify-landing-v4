@@ -673,6 +673,9 @@ const Video = () => {
   useEffect(() => {
     if (!isMobile) {
       setHasUserInteracted(true);
+    } else {
+      // On mobile, don't show loader until user interacts
+      setLoading(false);
     }
   }, [isMobile]);
 
@@ -703,13 +706,18 @@ const Video = () => {
     // First user tap on mobile: mark interaction and attempt to play
     if (isMobile && !hasUserInteracted) {
       setHasUserInteracted(true);
+      setLoading(true);
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
           if (error?.name !== "NotAllowedError") {
             setHasError(true);
           }
+          setLoading(false);
         });
+      } else {
+        // If no promise is returned, stop showing loader
+        setLoading(false);
       }
       return;
     }
@@ -717,6 +725,7 @@ const Video = () => {
     if (isPlaying) {
       videoRef.current.pause();
     } else {
+      setLoading(true);
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
@@ -726,7 +735,10 @@ const Video = () => {
           } else {
             setHasError(true);
           }
+          setLoading(false);
         });
+      } else {
+        setLoading(false);
       }
     }
   };
@@ -834,7 +846,7 @@ const Video = () => {
         }}
       />
 
-      {loading && (
+      {loading && (!isMobile || hasUserInteracted) && (
         <Box
           position="absolute"
           top={0}
