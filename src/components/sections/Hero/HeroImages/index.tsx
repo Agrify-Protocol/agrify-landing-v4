@@ -31,6 +31,8 @@ const HeroImages = () => {
             alt="yaji"
             width={yajiSize?.width}
             height={yajiSize?.height}
+            priority={true}
+            loading="eager"
             objectFit="cover"
           />
         </Box>
@@ -40,6 +42,8 @@ const HeroImages = () => {
             alt="phone"
             width={phoneSize?.width}
             height={phoneSize?.height}
+            priority={true}
+            loading="eager"
           />
         </Box>
         <Box position={'relative'} right={{ base: '3px', md: '30px' }}>
@@ -48,6 +52,7 @@ const HeroImages = () => {
             alt="basket"
             width={basketSize?.width}
             height={basketSize?.height}
+            loading="eager"
           />
         </Box>
       </Flex>

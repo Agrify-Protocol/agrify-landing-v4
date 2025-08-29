@@ -40,6 +40,17 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
+      <head>
+        {/* Preload critical Hero images */}
+        <link rel="preload" href="/images/hero.png" as="image" />
+        <link rel="preload" href="/images/phone.svg" as="image" />
+        <link rel="preload" href="/images/yaji.svg" as="image" />
+        <link rel="preload" href="/images/basket.svg" as="image" />
+        
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://i.imgur.com" />
+      </head>
       <body
         className={`${inter.variable} ${pangaia.variable} ${suisse.variable} antialiased`}
       >
