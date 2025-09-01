@@ -343,7 +343,6 @@
 
 import React, { useMemo, useState } from "react";
 import { Box, VStack, Text, Image } from "@chakra-ui/react";
-import DashedText from "@/components/common/DashedText";
 // import useRenderSteps from '@/utils/hooks/useRenderSteps';
 // import { useInView } from "react-intersection-observer";
 // import { useStickyScroll } from '@/utils/hooks/useStickyScroll';
@@ -411,7 +410,7 @@ const STEP_IMAGES = [
 const Header: React.FC = React.memo(() => (
   <Box mb={8}>
     <Box w="fit-content" mb={4}>
-      <DashedText text="Regenerative Intelligence" />
+      
     </Box>
     <Text
       fontSize={{ base: "26px", lg: "48px" }}
@@ -541,7 +540,7 @@ export default function HowItWorks() {
 
   return (
     <motion.div
-      id="how-it-works"
+     
       style={{
         marginTop: "60px",
         paddingLeft: "16px",

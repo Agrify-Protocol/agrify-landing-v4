@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
-import { Box, Text, Flex, Button } from "@chakra-ui/react";
-import HeroImages from "./HeroImages";
+import { Box, Text, Button } from "@chakra-ui/react";
+import Image from "next/image";
+import heroDesktop from "../../../../public/images/hero.svg";
+import heroMobile from "../../../../public/images/hero-mobile.png";
 
 const Hero = () => {
   return (
@@ -9,30 +13,26 @@ const Hero = () => {
       pt={{ base: 16, lg: 36 }}
       px={{ base: 4, lg: 12 }}
       mx={{ base: 4, lg: 8 }}
-      backgroundImage="url('/images/hero.png')"
-      backgroundSize="cover"
-      backgroundPosition="center"
-      backgroundRepeat="no-repeat"
-      // Add loading optimization
-      style={{
-        backgroundImage: 'url("/images/hero.png")',
-        willChange: "auto", // Optimize for animations
-      }}
     >
-      <Flex justify="center" flexDirection={"column"} align="center" w="100%">
+      <Box
+        maxW="954px"
+        textAlign="center"
+        mx="auto"
+        pb={6}
+        px={{ base: 4, lg: 0 }}
+      >
         <Text
-          fontSize={{ base: "26px", lg: "48px" }}
-          fontWeight="200"
+          fontSize={{ base: "32px", lg: "48px" }}
           fontFamily="var(--font-pangaia)"
-          textAlign="center"
-          lineHeight="121%"
-          maxW={{ base: "357px", lg: "850px" }}
-          px="8px"
-          py="16px"
-          color={"brand.primaryBlack"}
+          fontWeight="200"
+          lineHeight={{ base: "44.8px", lg: "57.6px" }}
+          mb={6}
+          as="h2"
+          color="brand.primaryBlack"
         >
-          Improve the Traceability of Your Food Product with Regenerative
-          Intelligence
+          Turn Your Soil Data Into Funding
+          <br />
+          No Loans, No Paperwork
         </Text>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
@@ -41,13 +41,13 @@ const Hero = () => {
           fontFamily="var(--font-inter)"
           textAlign="center"
           maxW={{ base: "296px", lg: "558px" }}
-          px="8px"
-          py="16px"
-          color={"brand.secondaryForeGround"}
+          mx="auto"
+          mb={8}
+          color="brand.secondaryForeGround"
         >
-          Agrify is an agentic AI that helps farmers document how their food is
-          grown, then transforms that journey into a verified traceability
-          passport.
+          Agrify guides farmers with propriety regenerative technology, scores
+          your farm&apos;s performance, provides capital for scale and connects you
+          to global buyers.
         </Text>
         <Button
           variant="solid"
@@ -67,10 +67,27 @@ const Hero = () => {
             }
           }}
         >
-          Talk to Us
+          Apply for Funding
         </Button>
-      </Flex>
-      <HeroImages />
+      </Box>
+
+      
+      <Box display={{ base: "none", md: "block" }}>
+        <Image
+          src={heroDesktop}
+          alt="Agrify Hero - Farmers using technology"
+          style={{ borderRadius: "24px", width: "100%", height: "auto" }}
+        />
+      </Box>
+
+      
+      <Box display={{ base: "block", md: "none" }}>
+        <Image
+          src={heroMobile} 
+          alt="Agrify Hero - Farmers using technology"
+          style={{ borderRadius: "16px", width: "100%", height: "auto" }}
+        />
+      </Box>
     </Box>
   );
 };

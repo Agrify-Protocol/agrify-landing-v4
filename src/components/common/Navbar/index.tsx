@@ -290,7 +290,7 @@ const Navbar = () => {
           paddingBottom={4}
           position="sticky"
           top={0}
-          background="rgba(245, 245, 247, 0.1)"
+          background="rgba(245, 245, 247, 0.5)"
           backdropFilter="blur(12px)"
           zIndex={10}
         >
@@ -307,22 +307,22 @@ const Navbar = () => {
                   textColor: "brand.green",
                 }}
                 cursor="pointer"
-                onClick={() => scrollToSection("#how-it-works")}
+                onClick={() => scrollToSection("#features")}
               >
                 <Text>Features</Text>
               </ListItem>
-              <ListItem
+              {/* <ListItem
                 _hover={{
                   textColor: "brand.green",
                 }}
                 cursor="pointer"
                 as="a"
-                href="https://marketplace.agrifyafrica.xyz/projects"
+                href="https://marketplace.agrifyafrica.xyz/marketplace"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Text>Marketplace</Text>
-              </ListItem>
+              </ListItem> */}
             </List>
           </Box>
           <Button
@@ -334,7 +334,7 @@ const Navbar = () => {
             }}
             onClick={() => scrollToSection("#join-waitlist")}
           >
-            Talk to Us
+            Apply for Funding
           </Button>
         </Box>
 
@@ -403,18 +403,18 @@ const Navbar = () => {
                     textColor: "brand.green",
                   }}
                   cursor="pointer"
-                  onClick={() => handleMobileNavClick("#how-it-works")}
+                  onClick={() => handleMobileNavClick("#features")}
                 >
                   <Text>Features</Text>
                 </ListItem>
-                <ListItem
+                {/* <ListItem
                   as="a"
-                  href="https://marketplace.agrifyafrica.xyz/projects"
+                  href="https://marketplace.agrifyafrica.xyz/marketplace"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Text>Marketplace</Text>
-                </ListItem>
+                </ListItem> */}
                 <Button
                   variant="outline"
                   style={{
@@ -424,7 +424,7 @@ const Navbar = () => {
                   }}
                   onClick={() => handleMobileNavClick("#join-waitlist")}
                 >
-                  Talk to Us
+                  Apply for Funding
                 </Button>
               </List>
             </DrawerBody>

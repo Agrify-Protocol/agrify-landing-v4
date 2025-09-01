@@ -1,4 +1,3 @@
-import DashedText from '@/components/common/DashedText';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import FeatureBox from './FeatureBox';
@@ -6,6 +5,7 @@ import FeatureBox from './FeatureBox';
 const Features = () => {
   return (
     <Box
+     id="features"
       mt={{ base: '40px', lg: '120px' }}
       minW={{ base: '361px' }}
       maxW={{ lg: '1024px' }}
@@ -13,7 +13,7 @@ const Features = () => {
       px={{ base: '16px', lg: '18px' }}
     >
       <Box w="fit-content">
-        <DashedText text="Features" />
+       
       </Box>
       <Text
         fontSize={{ base: '26px', lg: '48px' }}
@@ -24,7 +24,7 @@ const Features = () => {
         py={{ base: '2px', lg: '16px' }}
         color={'brand.primaryBlack'}
       >
-        With Agrify, food businesses get
+        With Agrify You Unlock
       </Text>
 
       <Flex

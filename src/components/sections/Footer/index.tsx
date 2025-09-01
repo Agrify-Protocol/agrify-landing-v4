@@ -135,7 +135,7 @@ const Footer = () => {
             <Text fontFamily="var(--font-inter)">Twitter</Text>
           </Flex>
 
-          <Flex
+          {/* <Flex
             gap={"16px"}
             as="a"
             href="#"
@@ -154,7 +154,7 @@ const Footer = () => {
               height={18}
             />
             <Text fontFamily="var(--font-inter)">Whatsapp</Text>
-          </Flex>
+          </Flex> */}
         </Flex>
       </Flex>
       <Image

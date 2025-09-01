@@ -15,9 +15,10 @@ const HomeComponent = () => {
       <Navbar />
       <Hero />
       <Partners />
-      <WhyNow />
-      <Features />
+      {/* <WhyNow /> */}
       <HowItWorks />
+      <Features />
+      
       <Video />
       <JoinForm />
       <Faq />

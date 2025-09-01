@@ -797,96 +797,109 @@ const Video = () => {
   };
 
   return (
-    <Box
-      as="section"
-      position="relative"
-      rounded={{ base: "16px", lg: "24px" }}
-      overflow="hidden"
-      px={{ base: "16px", lg: "60px" }}
-      py={{ base: "16px", lg: "32px" }}
-      mx={{ base: 4, lg: 8 }}
-      mt={{ base: "2px", lg: "94px" }}
-      h={{ base: "auto", lg: "600px" }}
-      aria-label="Video player"
-    >
-      <VideoPlaceHolder />
-
-      <video
-        ref={videoRef}
-        src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1754756417/Agrify_Ad_uvggx0.mp4"
-        controls
-        controlsList="nodownload"
-        playsInline
-        muted // Always muted on load for autoplay safety
-        preload={isMobile ? "none" : "auto"}
-        crossOrigin="anonymous"
-        poster="/images/video.svg"
-        aria-label="Agrify promotional video"
-        style={{
-          width: "100%",
-          height: "90%",
-          objectFit: "cover",
-          zIndex: 1,
-          transition: "opacity 0.6s ease-in-out",
-          opacity: loading ? 0 : 1,
-        }}
-        onLoadedMetadata={handleReady}
-        onLoadedData={handleReady}
-        onCanPlay={handleReady}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onError={handleError}
-        onWaiting={() => setLoading(true)}
-        onPlaying={() => setLoading(false)}
-        onClick={() => {
-          if (isMobile && !hasUserInteracted) setHasUserInteracted(true);
-        }}
-        onTouchStart={() => {
-          if (isMobile && !hasUserInteracted) setHasUserInteracted(true);
-        }}
-      />
-
-      {loading && (!isMobile || hasUserInteracted) && (
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          w="100%"
-          h="100%"
-          zIndex={3}
-          bg="rgba(0, 0, 0, 0.8)"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Loader logoSrc="/icons/logo.svg" />
-          <VisuallyHidden>Loading video content</VisuallyHidden>
-        </Box>
-      )}
-
-      {hasError && (
-        <Box
-          position="absolute"
-          top="50%"
-          left="50%"
-          transform="translate(-50%, -50%)"
-          zIndex={3}
-          textAlign="center"
-          p={4}
-          bg="rgba(0, 0, 0, 0.8)"
-          borderRadius="md"
-          color="white"
-        >
-          <Text mb={3}>Error loading video. Please try again.</Text>
-          <IconButton
-            aria-label="Retry loading video"
-            icon={<MdPlayArrow />}
-            onClick={retryVideo}
-            colorScheme="blue"
-            size="sm"
-          />
-        </Box>
-      )}
+    <Box>
+       <Text
+        fontSize={{ base: "26px", lg: "48px" }}
+        fontWeight="200"
+        fontFamily="var(--font-pangaia)"
+        lineHeight="121%"
+        px="8px"
+        // py={{ base: "2px", lg: "16px" }}
+        color={"#282828"}
+        textAlign="center"
+        mt={{ base: "24px", lg: "48px" }}
+      >
+        Join the Next Cohort of Farmers
+      </Text>
+      <Box
+        as="section"
+        position="relative"
+        rounded={{ base: "16px", lg: "24px" }}
+        overflow="hidden"
+        px={{ base: "16px", lg: "60px" }}
+        py={{ base: "16px", lg: "32px" }}
+        mx={{ base: 4, lg: 8 }}
+        mt={{ base: "2px", lg: "94px" }}
+        h={{ base: "auto", lg: "600px" }}
+        aria-label="Video player"
+      >
+      
+        <VideoPlaceHolder />
+        <video
+          ref={videoRef}
+          src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1754756417/Agrify_Ad_uvggx0.mp4"
+          controls
+          controlsList="nodownload"
+          playsInline
+          muted // Always muted on load for autoplay safety
+          preload={isMobile ? "none" : "auto"}
+          crossOrigin="anonymous"
+          poster="/images/video.svg"
+          aria-label="Agrify promotional video"
+          style={{
+            width: "100%",
+            height: "90%",
+            objectFit: "cover",
+            zIndex: 1,
+            transition: "opacity 0.6s ease-in-out",
+            opacity: loading ? 0 : 1,
+          }}
+          onLoadedMetadata={handleReady}
+          onLoadedData={handleReady}
+          onCanPlay={handleReady}
+          onPlay={handlePlay}
+          onPause={handlePause}
+          onError={handleError}
+          onWaiting={() => setLoading(true)}
+          onPlaying={() => setLoading(false)}
+          onClick={() => {
+            if (isMobile && !hasUserInteracted) setHasUserInteracted(true);
+          }}
+          onTouchStart={() => {
+            if (isMobile && !hasUserInteracted) setHasUserInteracted(true);
+          }}
+        />
+        {loading && (!isMobile || hasUserInteracted) && (
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            w="100%"
+            h="100%"
+            zIndex={3}
+            bg="rgba(0, 0, 0, 0.8)"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Loader logoSrc="/icons/logo.svg" />
+            <VisuallyHidden>Loading video content</VisuallyHidden>
+          </Box>
+        )}
+        {hasError && (
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            zIndex={3}
+            textAlign="center"
+            p={4}
+            bg="rgba(0, 0, 0, 0.8)"
+            borderRadius="md"
+            color="white"
+          >
+            <Text mb={3}>Error loading video. Please try again.</Text>
+            <IconButton
+              aria-label="Retry loading video"
+              icon={<MdPlayArrow />}
+              onClick={retryVideo}
+              colorScheme="blue"
+              size="sm"
+            />
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
