@@ -10,11 +10,11 @@ import nasa from "../../../../public/partners/Nasa.png";
 import hbar from "../../../../public/partners/HBAR.png";
 import esa from "../../../../public/partners/ESA.png";
 import fundIt from "../../../../public/partners/FIF.png";
-import parisBlockchainWeek from "../../../../public/partners/Paris blockchain.png";
-import xrpLedger from "../../../../public/partners/XRP Ledger.png";
+import parisBlockchainWeek from "../../../../public/partners/Paris-blockchain.png";
+import xrpLedger from "../../../../public/partners/XRP-Ledger.png";
 import gemma from "../../../../public/partners/Gemma.png";
-import mercyCorps from "../../../../public/partners/Mercy Corps .png";
-import xCommons from "../../../../public/partners/XRPL Commons .png";
+import mercyCorps from "../../../../public/partners/Mercy-Corps .png";
+import xCommons from "../../../../public/partners/XRPL-Commons .png";
 import "../../animation.css";
 
 
