@@ -359,50 +359,50 @@ interface Step {
 const HOW_IT_WORKS_STEPS: Step[] = [
   {
     id: "01",
-    title: "Receive Regenerative Tasks",
+    title: "Create your Profile",
     description:
-      "Farmers get personalized farming guidance in their own language, directly on their phones.",
+      "Tell us about your crops, location, and goals. Get your Agrify Score.",
   },
   {
     id: "02",
-    title: "Upload Proof of Completion",
+    title: "Follow AI-Guided Tasks",
     description:
-      "They share photos, voice notes, or text to show how the crop is grown, verified by GPS and timestamp.",
+      "Improve your soil, traceability, and export readiness. we show you how step-by-step.",
   },
   {
     id: "03",
-    title: "Generate a Traceability Story",
+    title: "Get Funded Without Collateral",
     description:
-      "AgUnity builds a digital passport that tells the real story of how food was produced.",
+      "We unlock inputs or capital when your score increases. No loans. Just a partnership to prepare you for global sales.",
   },
   {
     id: "04",
-    title: "Sell to Sustainable Buyers",
+    title: "Sell Through Our Marketplace",
     description:
-      "With verified stories, farmers can connect directly with global buyers looking for ethical, climate-smart produce.",
+      "We bring you buyers. Once they pay, we take our commission and you get paid.",
   },
 ];
 
 const STEP_IMAGES = [
   {
     id: "01",
-    src: "/images/how_it_works.svg",
-    alt: "Farmers receiving regenerative tasks on mobile",
+    src: "/images/step-one.svg",
+    alt: "Create your Profile",
   },
   {
     id: "02",
-    src: "/images/second_step.svg",
-    alt: "Uploading proof of task completion",
+    src: "/images/step-two.svg",
+    alt: "Follow AI-Guided Tasks",
   },
   {
     id: "03",
-    src: "/images/third_step.svg",
-    alt: "Digital traceability story generation",
+    src: "/images/step-three.svg",
+    alt: "Get Funded Without Collateral",
   },
   {
     id: "04",
-    src: "/images/fourth_step.svg",
-    alt: "Connecting with sustainable buyers",
+    src: "/images/step-four.svg",
+    alt: "Sell Through Our Marketplace",
   },
 ];
 
@@ -727,7 +727,6 @@ export default function HowItWorks() {
     </motion.div>
   );
 }
-
 // TODO: Implement GSAP scroll-triggered animations
 // - Use ScrollTrigger to animate steps as they come into view
 // - Consider parallax effects for images
