@@ -11,8 +11,9 @@ const Hero = () => {
     <Box
       rounded={{ base: "16px", lg: "24px" }}
       pt={{ base: 16, lg: 36 }}
-      px={{ base: 4, lg: 12 }}
+      // px={{ base: 4, lg: 12 }}
       mx={{ base: 4, lg: 8 }}
+      bg="white" 
     >
       <Box
         maxW="954px"
@@ -85,7 +86,7 @@ const Hero = () => {
         <Image
           src={heroMobile} 
           alt="Agrify Hero - Farmers using technology"
-          style={{ borderRadius: "16px", width: "100%", height: "auto" }}
+          style={{ borderRadius: "24px", width: "100%", height: "auto" }}
         />
       </Box>
     </Box>

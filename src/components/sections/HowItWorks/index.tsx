@@ -343,9 +343,6 @@
 
 import React, { useMemo, useState } from "react";
 import { Box, VStack, Text, Image } from "@chakra-ui/react";
-// import useRenderSteps from '@/utils/hooks/useRenderSteps';
-// import { useInView } from "react-intersection-observer";
-// import { useStickyScroll } from '@/utils/hooks/useStickyScroll';
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Step {

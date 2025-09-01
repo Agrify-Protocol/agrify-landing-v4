@@ -156,7 +156,7 @@ import gemma from "../../../../public/icons/collaborators/gemma.png";
 import mercyCorps from "../../../../public/icons/collaborators/mercy_corps.png";
 import xCommons from "../../../../public/icons/collaborators/commons.png";
 import "../../animation.css";
-import DashedText from "@/components/common/DashedText";
+
 
 const collaborators = [
   {
