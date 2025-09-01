@@ -386,22 +386,22 @@ const HOW_IT_WORKS_STEPS: Step[] = [
 const STEP_IMAGES = [
   {
     id: "01",
-    src: "/images/step-one.svg",
+    src: "/images/step-one.webp",
     alt: "Create your Profile",
   },
   {
     id: "02",
-    src: "/images/step-two.svg",
+    src: "/images/step-two.webp",
     alt: "Follow AI-Guided Tasks",
   },
   {
     id: "03",
-    src: "/images/step-three.svg",
+    src: "/images/step-three.webp",
     alt: "Get Funded Without Collateral",
   },
   {
     id: "04",
-    src: "/images/step-four.svg",
+    src: "/images/step-four.webp",
     alt: "Sell Through Our Marketplace",
   },
 ];
