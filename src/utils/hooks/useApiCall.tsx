@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import useCustomToast from './useCustomToast';
+import axios, { AxiosResponse } from "axios";
+import useCustomToast from "./useCustomToast";
 
 type ApiResponseBase = {
   message?: string;
@@ -30,24 +30,54 @@ const useApiCall = () => {
       axios
         .post<TResponse>(url, body)
         .then((response) => {
-          if (response?.status <= 400) {
+          if (response?.status < 400) {
             customToast({
-              type: 'success',
-              desc: response.data?.message ?? toastDesc.success,
+              type: "success",
+              desc: toastDesc.success,
             });
             onSuccess(response);
           } else {
+            const errMsg =
+              (response?.data?.error as string) ||
+              (response?.data?.message as string) ||
+              "";
+
+            const isDuplicate = /unique|already exists/i.test(errMsg);
+            if (isDuplicate) {
+              customToast({
+                type: "success",
+                desc: "You are already on our waitlist. We will be in touch shortly.",
+              });
+              onSuccess(response);
+              return;
+            }
+
             customToast({
-              type: 'error',
-              desc: response.data?.error ?? toastDesc.error,
+              type: "error",
+              desc: errMsg || toastDesc.error,
             });
             onError?.();
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          const serverMessage =
+            error?.response?.data?.error ||
+            error?.response?.data?.message ||
+            "";
+          const isDuplicate = /unique|already exists/i.test(serverMessage);
+
+          if (isDuplicate) {
+            customToast({
+              type: "success",
+              desc: "You are already on our waitlist. We will be in touch shortly.",
+            });
+            onSuccess();
+            return;
+          }
+
           customToast({
-            type: 'error',
-            desc: toastDesc.error,
+            type: "error",
+            desc: serverMessage ?? toastDesc.error,
           });
           onError?.();
         })

@@ -182,15 +182,15 @@
 
 // export default JoinForm;
 
-import CustomInput from '@/components/common/CustomInput';
-import { Box, Stack, Text } from '@chakra-ui/react';
-import React from 'react';
-import useWaitlistLogic from '../Waitlist/controller/useWaitlistLogic';
-import Image from 'next/image';
-import CustomButton from '@/components/common/CustomButton';
-import CountryModal, { Country } from '../Waitlist/CountryModal';
-import { pangaia, suisse } from '@/fonts';
-import close from '../../../../public/icons/hamburger-close.svg';
+import CustomInput from "@/components/common/CustomInput";
+import { Box, Stack, Text } from "@chakra-ui/react";
+import React from "react";
+import useWaitlistLogic from "../Waitlist/controller/useWaitlistLogic";
+import Image from "next/image";
+import CustomButton from "@/components/common/CustomButton";
+import CountryModal, { Country } from "../Waitlist/CountryModal";
+import { pangaia, suisse } from "@/fonts";
+import close from "../../../../public/icons/hamburger-close.svg";
 
 const JoinForm = () => {
   const {
@@ -213,18 +213,18 @@ const JoinForm = () => {
 
   return (
     <Box
-    id="join-waitlist"
-      my={{ base: '20px', lg: '200px' }}
+      id="join-waitlist"
+      my={{ base: "20px", lg: "200px" }}
       as="form"
       maxW="558px"
       mx="auto"
-      pb={{ base: '20px', lg: '40px' }}
-      px={{ base: '11px', lg: 0 }}
+      pb={{ base: "20px", lg: "40px" }}
+      px={{ base: "11px", lg: 0 }}
     >
       <Text
         as="h3"
         fontWeight="200"
-        fontSize={{ base: '24px', lg: '40px' }}
+        fontSize={{ base: "24px", lg: "40px" }}
         fontFamily={pangaia.style.fontFamily}
         textAlign="center"
       >
@@ -281,7 +281,7 @@ const JoinForm = () => {
               setFarmLocationModalOpen(true);
             }
           }}
-          cursor={isLoading ? 'not-allowed' : 'pointer'}
+          cursor={isLoading ? "not-allowed" : "pointer"}
         >
           <Text mb={2}>Farm Location</Text>
           <Box
@@ -294,19 +294,19 @@ const JoinForm = () => {
             border="1px solid #E2E8F0"
             transition="all 0.1s ease-in-out"
             _hover={{
-              border: '1px solid #C8C8C8',
+              border: "1px solid #C8C8C8",
             }}
             padding={3}
           >
             <Text
               fontSize="14px"
               color={
-                selectedFarmLocation.name.common ? 'black' : 'brand.darkGrey'
+                selectedFarmLocation.name.common ? "black" : "brand.darkGrey"
               }
             >
               {selectedFarmLocation.name.common
                 ? selectedFarmLocation.name.common
-                : 'Select your farm location'}
+                : "Select your farm location"}
             </Text>
             {selectedFarmLocation.name.common ? (
               <Box
@@ -316,7 +316,7 @@ const JoinForm = () => {
                   if (!isLoading) {
                     setSelectedFarmLocation((prev: Country) => ({
                       ...prev,
-                      name: { common: '' },
+                      name: { common: "" },
                     }));
                   }
                 }}
@@ -338,17 +338,28 @@ const JoinForm = () => {
           setIsInputInvalid={setIsInputInvalid}
           isLoading={isLoading}
         /> */}
+        <CustomInput
+          label="Farm size (In Hectares)"
+          id="farm_size"
+          placeholder="Enter Farm size"
+          value={userDetails.farm_size}
+          isInvalid={isInputInvalid.farm_size}
+          errorMessage="Farm size must contain numbers only."
+          onChange={(e) => handleInputOnchange(e)}
+          setIsInputInvalid={setIsInputInvalid}
+          isLoading={isLoading}
+        />
       </Stack>
 
       <CustomButton
-        text="Join the Waitlist"
+        text="Join the Cohort"
         variant="solid"
         isDisabled={checkIfBtnDisabled()}
         w="100%"
         fontSize="16px"
         isLoading={isLoading}
-        fontWeight={{ base: '400', lg: '500' }}
-        letterSpacing={{ base: '0.2%', lg: '-2%' }}
+        fontWeight={{ base: "400", lg: "500" }}
+        letterSpacing={{ base: "0.2%", lg: "-2%" }}
         fontFamily={suisse.style.fontFamily}
         onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           e.preventDefault();
