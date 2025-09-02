@@ -33,11 +33,7 @@ const Footer = () => {
             color={"#A5A5A5"}
             lineHeight={"140%"}
           >
-            Agrify is a mobile-first AI assistant for smallholder farmers. It
-            helps you grow more sustainably, guides you in your own language,
-            verifies your work, and turns your harvest into a story buyers can
-            trust. With just $3 and your voice, you can access traceable export
-            markets and get paid faster, safer, and smarter.
+          Agrify is an AI-powered financing engine and escrow marketplace that turns farm data into growth capital. We score farmers on soil health, harvest performance, and export readiness, then offer profit-share financing—no interest, just upside. Financed crops are listed on our traceable marketplace: every shipment carries a digital passport, buyer payments are held in escrow, and repayment is automatic. Farmers scale with fair capital. Buyers get verified, sustainably grown, and traceable supply. Every trade is faster, safer, and export-ready.
           </Text>
 
           <Flex
