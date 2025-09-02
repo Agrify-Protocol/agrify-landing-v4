@@ -338,17 +338,6 @@ const JoinForm = () => {
           setIsInputInvalid={setIsInputInvalid}
           isLoading={isLoading}
         /> */}
-        <CustomInput
-          label="Farm size (In Hectares)"
-          id="farm_size"
-          placeholder="Enter Farm size"
-          value={userDetails.farm_size}
-          isInvalid={isInputInvalid.farm_size}
-          errorMessage="Farm size must contain numbers only."
-          onChange={(e) => handleInputOnchange(e)}
-          setIsInputInvalid={setIsInputInvalid}
-          isLoading={isLoading}
-        />
       </Stack>
 
       <CustomButton

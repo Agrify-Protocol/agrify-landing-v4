@@ -90,9 +90,7 @@ const useWaitlistLogic = () => {
       ...userDetails,
       phone_number: userDetails.phone_number,
       farm_country: selectedFarmLocation.name.common,
-      farm_size: userDetails.farm_size
-        ? Number(userDetails.farm_size)
-        : undefined,
+      farm_size: 0,
     };
 
     apiCall(
@@ -119,12 +117,11 @@ const useWaitlistLogic = () => {
   };
 
   const checkIfBtnDisabled = () => {
-    // Require fields present in the form, including farm_size
+    // Require fields present in the form
     const requiredFields: Array<keyof UserDetailsProp> = [
       "full_name",
       "phone_number",
       "email",
-      "farm_size",
     ];
 
     const hasInvalid = Object.values(isInputInvalid).some(
