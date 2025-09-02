@@ -8,13 +8,23 @@ import React from "react";
 import dltScience from "../../../../public/partners/DLT.png";
 import nasa from "../../../../public/partners/Nasa.png";
 import hbar from "../../../../public/partners/HBAR.png";
-import esa from "../../../../public/partners/ESA.png";
+import esa from "../../../../public/partners/eSA.png";
 import fundIt from "../../../../public/partners/FIF.png";
 import parisBlockchainWeek from "../../../../public/partners/Paris-blockchain.png";
 import xrpLedger from "../../../../public/partners/XRP-Ledger.png";
 import gemma from "../../../../public/partners/Gemma.png";
 import mercyCorps from "../../../../public/partners/Mercy-Corps.png";
 import xCommons from "../../../../public/partners/XRPL-Commons.png";
+// import dltScience from "/partners/DLT.png";
+// import nasa from "/partners/Nasa.png";
+// import hbar from "/partners/HBAR.png";
+// import esa from "/partners/eSA.png";
+// import fundIt from "/partners/FIF.png";
+// import parisBlockchainWeek from "/partners/Paris-blockchain.png";
+// import xrpLedger from "/partners/XRP-Ledger.png";
+// import gemma from "/partners/Gemma.png";
+// import mercyCorps from "/partners/Mercy-Corps.png";
+// import xCommons from "/partners/XRPL-Commons.png";
 import "../../animation.css";
 
 
