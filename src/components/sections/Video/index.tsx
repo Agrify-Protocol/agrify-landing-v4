@@ -635,9 +635,9 @@
 
 // export default Video;
 
-"use client";
+'use client';
 
-import { Loader } from "@/components/common/Loader";
+import { Loader } from '@/components/common/Loader';
 import {
   Box,
   Image as ChakraImage,
@@ -646,9 +646,9 @@ import {
   Text,
   VisuallyHidden,
   useBreakpointValue,
-} from "@chakra-ui/react";
-import { MdPlayArrow } from "react-icons/md";
-import React, { useState, useRef, useEffect } from "react";
+} from '@chakra-ui/react';
+import { MdPlayArrow } from 'react-icons/md';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Video = () => {
   const [loading, setLoading] = useState(true);
@@ -710,7 +710,7 @@ const Video = () => {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
-          if (error?.name !== "NotAllowedError") {
+          if (error?.name !== 'NotAllowedError') {
             setHasError(true);
           }
           setLoading(false);
@@ -729,8 +729,8 @@ const Video = () => {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
-          console.log("Playback failed:", error);
-          if (error.name === "NotAllowedError") {
+          console.log('Playback failed:', error);
+          if (error.name === 'NotAllowedError') {
             setIsPlaying(false);
           } else {
             setHasError(true);
@@ -767,7 +767,7 @@ const Video = () => {
         tabIndex={0}
         aria-label="Play video"
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             togglePlayPause();
           }
@@ -798,33 +798,32 @@ const Video = () => {
 
   return (
     <Box>
-       <Text
-        fontSize={{ base: "26px", lg: "48px" }}
+      <Text
+        fontSize={{ base: '26px', lg: '48px' }}
         fontWeight="200"
         fontFamily="var(--font-pangaia)"
         lineHeight="121%"
         px="8px"
         // py={{ base: "2px", lg: "16px" }}
-        color={"#282828"}
+        color={'#282828'}
         textAlign="center"
-        mt={{ base: "24px", lg: "48px" }}
+        mt={{ base: '24px', lg: '48px' }}
       >
         Join the Next Cohort of Farmers
       </Text>
       <Box
         as="section"
         position="relative"
-        rounded={{ base: "16px", lg: "24px" }}
+        rounded={{ base: '16px', lg: '24px' }}
         overflow="hidden"
-        px={{ base: "16px", lg: "60px" }}
-        py={{ base: "16px", lg: "32px" }}
+        px={{ base: '16px', lg: '60px' }}
+        py={{ base: '16px', lg: '32px' }}
         mx={{ base: 4, lg: 8 }}
-        mt={{ base: "2px", lg: "94px" }}
-        h={{ base: "auto", lg: "600px" }}
+        mt={{ base: '2px', lg: '94px' }}
+        h={{ base: 'auto', lg: '600px' }}
         aria-label="Video player"
       >
-      
-        <VideoPlaceHolder />
+        {/* <VideoPlaceHolder /> */}
         <video
           ref={videoRef}
           src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1754756417/Agrify_Ad_uvggx0.mp4"
@@ -832,16 +831,16 @@ const Video = () => {
           controlsList="nodownload"
           playsInline
           muted // Always muted on load for autoplay safety
-          preload={isMobile ? "none" : "auto"}
+          preload={isMobile ? 'none' : 'auto'}
           crossOrigin="anonymous"
-          poster="/images/video.svg"
+          // poster="/images/video.svg"
           aria-label="Agrify promotional video"
           style={{
-            width: "100%",
-            height: "90%",
-            objectFit: "cover",
+            width: '100%',
+            height: '90%',
+            objectFit: 'cover',
             zIndex: 1,
-            transition: "opacity 0.6s ease-in-out",
+            transition: 'opacity 0.6s ease-in-out',
             opacity: loading ? 0 : 1,
           }}
           onLoadedMetadata={handleReady}

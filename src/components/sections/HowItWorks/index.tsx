@@ -339,11 +339,19 @@
 //   );
 // }
 
-"use client";
+'use client';
 
-import React, { useMemo, useState } from "react";
-import { Box, VStack, Text, Image } from "@chakra-ui/react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useMemo, useRef, useState } from 'react';
+import { Box, VStack, Text, Image } from '@chakra-ui/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import SmoothProgressBar from '@/components/home/_components/ProgressBar';
+import gsap from 'gsap';
+// import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(useGSAP, ScrollToPlugin, ScrollTrigger);
 
 interface Step {
   id: string;
@@ -354,51 +362,51 @@ interface Step {
 // --- Data (Colocated and improved structure) ---
 const HOW_IT_WORKS_STEPS: Step[] = [
   {
-    id: "01",
-    title: "Create your Profile",
+    id: '01',
+    title: 'Create your Profile',
     description:
-      "Tell us about your crops, location, and goals. Get your Agrify Score.",
+      'Tell us about your crops, location, and goals. Get your Agrify Score.',
   },
   {
-    id: "02",
-    title: "Follow AI-Guided Tasks",
+    id: '02',
+    title: 'Follow AI-Guided Tasks',
     description:
-      "Improve your soil, traceability, and export readiness. we show you how step-by-step.",
+      'Improve your soil, traceability, and export readiness. we show you how step-by-step.',
   },
   {
-    id: "03",
-    title: "Get Funded Without Collateral",
+    id: '03',
+    title: 'Get Funded Without Collateral',
     description:
-      "We unlock inputs or capital when your score increases. No loans. Just a partnership to prepare you for global sales.",
+      'We unlock inputs or capital when your score increases. No loans. Just a partnership to prepare you for global sales.',
   },
   {
-    id: "04",
-    title: "Sell Through Our Marketplace",
+    id: '04',
+    title: 'Sell Through Our Marketplace',
     description:
-      "We bring you buyers. Once they pay, we take our commission and you get paid.",
+      'We bring you buyers. Once they pay, we take our commission and you get paid.',
   },
 ];
 
 const STEP_IMAGES = [
   {
-    id: "01",
-    src: "/images/step-one.webp",
-    alt: "Create your Profile",
+    id: '01',
+    src: '/images/step-one.webp',
+    alt: 'Create your Profile',
   },
   {
-    id: "02",
-    src: "/images/step-two.webp",
-    alt: "Follow AI-Guided Tasks",
+    id: '02',
+    src: '/images/step-two.webp',
+    alt: 'Follow AI-Guided Tasks',
   },
   {
-    id: "03",
-    src: "/images/step-three.webp",
-    alt: "Get Funded Without Collateral",
+    id: '03',
+    src: '/images/step-three.webp',
+    alt: 'Get Funded Without Collateral',
   },
   {
-    id: "04",
-    src: "/images/step-four.webp",
-    alt: "Sell Through Our Marketplace",
+    id: '04',
+    src: '/images/step-four.webp',
+    alt: 'Sell Through Our Marketplace',
   },
 ];
 
@@ -406,11 +414,9 @@ const STEP_IMAGES = [
 
 const Header: React.FC = React.memo(() => (
   <Box mb={8}>
-    <Box w="fit-content" mb={4}>
-      
-    </Box>
+    <Box w="fit-content" mb={4}></Box>
     <Text
-      fontSize={{ base: "26px", lg: "48px" }}
+      fontSize={{ base: '26px', lg: '48px' }}
       fontWeight="200"
       fontFamily="var(--font-pangaia)"
       lineHeight="121%"
@@ -421,7 +427,7 @@ const Header: React.FC = React.memo(() => (
   </Box>
 ));
 
-Header.displayName = "Header";
+Header.displayName = 'Header';
 
 const StepImage = React.memo(({ src, alt }: { src: string; alt: string }) => (
   <Image
@@ -430,13 +436,13 @@ const StepImage = React.memo(({ src, alt }: { src: string; alt: string }) => (
     borderRadius="lg"
     objectFit="cover"
     w="100%"
-    maxH={{ base: "300px", lg: "500px" }}
+    maxH={{ base: '300px', lg: '500px' }}
     transition="opacity 0.3s ease"
     // loading="lazy"
   />
 ));
 
-StepImage.displayName = "StepImage";
+StepImage.displayName = 'StepImage';
 
 // Clickable step component - matching original Item component typography
 const ClickableStep = React.memo(
@@ -451,48 +457,112 @@ const ClickableStep = React.memo(
   }) => (
     <motion.div
       onClick={onClick}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: 'pointer' }}
       whileHover={{ x: 2 }}
       transition={{ duration: 0.2 }}
     >
-      <Box opacity={isActive ? "100%" : "40%"}>
+      <Box id="step" opacity={isActive ? '100%' : '40%'}>
         <Text
           fontFamily="var(--font-inter)"
-          mb={"12px"}
+          mb={'12px'}
           fontWeight={500}
-          fontSize={"18px"}
-          opacity={"40%"}
+          fontSize={'18px'}
+          opacity={'40%'}
         >
           {step.id}
         </Text>
         <Text
           fontFamily="var(--font-inter)"
           fontWeight={500}
-          fontSize={"20px"}
-          mb={"12px"}
+          fontSize={'20px'}
+          mb={'12px'}
         >
           {step.title}
         </Text>
-        <Text fontFamily="var(--font-inter)" lineHeight={"120%"}>
+        <Text fontFamily="var(--font-inter)" lineHeight={'120%'}>
           {step.description}
         </Text>
+        {/* <Box id={`progress-bar-${step.id}`} opacity={isActive ? '100%' : '0%'}>
+          <SmoothProgressBar isActive progress={0} />
+        </Box> */}
+        <Box bg="gray.300" borderRadius="full" h="4px" mt={3}>
+          <Box
+            bg="green"
+            borderRadius="full"
+            h="full"
+            id={`progress-bar-${step.id}`}
+            w={0}
+          />
+        </Box>
       </Box>
     </motion.div>
   )
 );
 
-ClickableStep.displayName = "ClickableStep";
+ClickableStep.displayName = 'ClickableStep';
 
 // --- Main Component ---
 
 export default function HowItWorks() {
   // State for click-to-activate functionality
   const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const lastStepRef = useRef(0);
 
   const currentImage = useMemo(
     () => STEP_IMAGES[activeStepIndex],
     [activeStepIndex]
   );
+
+  const container = useRef(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        id: 'how-it-works',
+        scrollTrigger: {
+          trigger: container.current,
+          start: 'top 10%',
+          end: '+=' + HOW_IT_WORKS_STEPS.length * 1800, // 1800px scroll per step
+          scrub: true,
+          pin: true,
+          onUpdate: (self) => {
+            const progressPerStep = 1 / HOW_IT_WORKS_STEPS.length;
+            const currentStep = Math.min(
+              HOW_IT_WORKS_STEPS.length - 1,
+              Math.floor(self.progress / progressPerStep)
+            );
+            if (currentStep !== lastStepRef.current) {
+              lastStepRef.current = currentStep;
+              setActiveStepIndex(currentStep);
+            }
+          },
+        },
+      });
+      HOW_IT_WORKS_STEPS.forEach((step, i) => {
+        // Animate progress bar filling for this step
+        tl.to(`#progress-bar-${step.id}`, { width: '100%' }, i);
+      });
+    },
+    { scope: container }
+  );
+
+  const handleClickStep = (index: number) => {
+    setActiveStepIndex(index);
+
+    // Scroll to correct step position
+    const scrollTrigger = ScrollTrigger.getById('how-it-works');
+    if (scrollTrigger) {
+      const totalScroll = scrollTrigger.end - scrollTrigger.start;
+      const stepSize = totalScroll / HOW_IT_WORKS_STEPS.length;
+      const target = scrollTrigger.start + stepSize * index;
+
+      gsap.to(window, {
+        duration: 0,
+        scrollTo: target,
+        // ease: 'power2.inOut',
+      });
+    }
+  };
 
   // Commented out progressive rendering logic
   // const containerRef = useRef(null);
@@ -537,20 +607,19 @@ export default function HowItWorks() {
 
   return (
     <motion.div
-     
       style={{
-        marginTop: "60px",
-        paddingLeft: "16px",
-        paddingRight: "16px",
-        width: "100%",
-        position: "relative",
+        marginTop: '60px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+        width: '100%',
+        position: 'relative',
       }}
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.8,
         ease: [0.4, 0, 0.2, 1],
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
         damping: 20,
       }}
@@ -566,12 +635,13 @@ export default function HowItWorks() {
       /> */}
 
       <div
+        ref={container}
         style={{
-          maxWidth: "72rem",
-          margin: "0 auto",
-          backgroundColor: "white",
-          borderRadius: "0.75rem",
-          padding: "1rem",
+          maxWidth: '72rem',
+          margin: '0 auto',
+          backgroundColor: 'white',
+          borderRadius: '0.75rem',
+          padding: '1rem',
         }}
       >
         {/* Commented out sticky animations */}
@@ -648,11 +718,11 @@ export default function HowItWorks() {
         {/* Original progressive rendering container - kept but non-functional */}
         <div
           style={{
-            position: "absolute",
-            top: "20vh",
-            height: "60vh",
+            position: 'absolute',
+            top: '20vh',
+            height: '60vh',
             opacity: 0,
-            pointerEvents: "none",
+            pointerEvents: 'none',
           }}
         />
 
@@ -661,11 +731,11 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          viewport={{ once: true, margin: "-10%" }}
+          viewport={{ once: true, margin: '-10%' }}
         >
           <Box
             display="flex"
-            flexDirection={{ base: "column", lg: "row" }}
+            flexDirection={{ base: 'column', lg: 'row' }}
             gap={{ base: 8, lg: 20 }}
             alignItems="flex-start"
             w="full"
@@ -674,8 +744,8 @@ export default function HowItWorks() {
             <VStack
               spacing={4}
               align="stretch"
-              flex={{ base: "none", lg: "1" }}
-              w={{ base: "full", lg: "50%" }}
+              flex={{ base: 'none', lg: '1' }}
+              w={{ base: 'full', lg: '50%' }}
               minW="0"
               mb={{ base: 8, lg: 0 }}
             >
@@ -684,15 +754,15 @@ export default function HowItWorks() {
                   key={step.id}
                   step={step}
                   isActive={index === activeStepIndex}
-                  onClick={() => setActiveStepIndex(index)}
+                  onClick={() => handleClickStep(index)}
                 />
               ))}
             </VStack>
 
             {/* Image - right side on desktop, bottom on mobile */}
             <Box
-              flex={{ base: "none", lg: "1" }}
-              w={{ base: "full", lg: "50%" }}
+              flex={{ base: 'none', lg: '1' }}
+              w={{ base: 'full', lg: '50%' }}
               minW="0"
             >
               <AnimatePresence mode="wait">
