@@ -485,7 +485,13 @@ const ClickableStep = React.memo(
         {/* <Box id={`progress-bar-${step.id}`} opacity={isActive ? '100%' : '0%'}>
           <SmoothProgressBar isActive progress={0} />
         </Box> */}
-        <Box bg="gray.300" borderRadius="full" h="4px" mt={3}>
+        <Box
+          bg="gray.300"
+          borderRadius="full"
+          h="4px"
+          mt={3}
+          opacity={isActive ? '100%' : '0%'}
+        >
           <Box
             bg="green"
             borderRadius="full"
