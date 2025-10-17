@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, VStack, Text, Image } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import SmoothProgressBar from "@/components/home/_components/ProgressBar";
 import gsap from "gsap";
 // import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -108,10 +107,12 @@ const ClickableStep = React.memo(
   ({
     step,
     isActive,
+    isDesktop,
     onClick,
   }: {
     step: Step;
     isActive: boolean;
+    isDesktop?: boolean;
     onClick: () => void;
   }) => (
     <motion.div
@@ -149,24 +150,23 @@ const ClickableStep = React.memo(
         <Text fontFamily="var(--font-inter)" lineHeight={"120%"}>
           {step.description}
         </Text>
-        {/* <Box id={`progress-bar-${step.id}`} opacity={isActive ? '100%' : '0%'}>
-          <SmoothProgressBar isActive progress={0} />
-        </Box> */}
-        <Box
-          bg="gray.300"
-          borderRadius="full"
-          h="4px"
-          mt={3}
-          opacity={isActive ? "100%" : "0%"}
-        >
+        {!!isDesktop && (
           <Box
-            bg="brand.green"
+            bg="gray.300"
             borderRadius="full"
-            h="full"
-            id={`progress-bar-${step.id}`}
-            w={0}
-          />
-        </Box>
+            h="4px"
+            mt={3}
+            opacity={isActive ? "100%" : "0%"}
+          >
+            <Box
+              bg="brand.green"
+              borderRadius="full"
+              h="full"
+              id={`progress-bar-${step.id}`}
+              w={0}
+            />
+          </Box>
+        )}
       </Box>
     </motion.div>
   )
@@ -180,6 +180,7 @@ export default function HowItWorks() {
   // State for click-to-activate functionality
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const lastStepRef = useRef(0);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const currentImage = useMemo(
     () => STEP_IMAGES[activeStepIndex],
@@ -188,8 +189,25 @@ export default function HowItWorks() {
 
   const container = useRef(null);
 
+  // Track viewport to disable animations on small screens
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   useGSAP(
     () => {
+      // Disable GSAP ScrollTrigger and progress fill on small screens
+      if (!isDesktop) {
+        const existing = ScrollTrigger.getById("how-it-works");
+        if (existing) existing.kill();
+        return;
+      }
+
       const tl = gsap.timeline({
         id: "how-it-works",
         scrollTrigger: {
@@ -216,24 +234,24 @@ export default function HowItWorks() {
         tl.to(`#progress-bar-${step.id}`, { width: "100%" }, i);
       });
     },
-    { scope: container }
+    { scope: container, dependencies: [isDesktop] }
   );
 
   const handleClickStep = (index: number) => {
     setActiveStepIndex(index);
 
-    // Scroll to correct step position
-    const scrollTrigger = ScrollTrigger.getById("how-it-works");
-    if (scrollTrigger) {
-      const totalScroll = scrollTrigger.end - scrollTrigger.start;
-      const stepSize = totalScroll / HOW_IT_WORKS_STEPS.length;
-      const target = scrollTrigger.start + stepSize * index;
-
-      gsap.to(window, {
-        duration: 0,
-        scrollTo: target,
-        // ease: 'power2.inOut',
-      });
+    // Desktop-only: Scroll to correct step position
+    if (isDesktop) {
+      const scrollTrigger = ScrollTrigger.getById("how-it-works");
+      if (scrollTrigger) {
+        const totalScroll = scrollTrigger.end - scrollTrigger.start;
+        const stepSize = totalScroll / HOW_IT_WORKS_STEPS.length;
+        const target = scrollTrigger.start + stepSize * index;
+        gsap.to(window, {
+          duration: 0,
+          scrollTo: target,
+        });
+      }
     }
   };
 
@@ -305,6 +323,7 @@ export default function HowItWorks() {
                   key={step.id}
                   step={step}
                   isActive={index === activeStepIndex}
+                  isDesktop={isDesktop}
                   onClick={() => handleClickStep(index)}
                 />
               ))}
