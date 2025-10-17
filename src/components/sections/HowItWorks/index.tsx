@@ -284,6 +284,10 @@ export default function HowItWorks() {
           padding: "1rem",
         }}
       >
+        {/* Mobile: show image above heading */}
+        <Box display={{ base: "block", lg: "none" }} mb={4}>
+          <StepImage src={currentImage.src} alt={currentImage.alt} />
+        </Box>
         <Header />
 
         <div
@@ -317,6 +321,7 @@ export default function HowItWorks() {
               w={{ base: "full", lg: "50%" }}
               minW="0"
               mb={{ base: 8, lg: 0 }}
+              order={{ base: 1, lg: 0 }}
             >
               {HOW_IT_WORKS_STEPS.map((step, index) => (
                 <ClickableStep
@@ -334,6 +339,8 @@ export default function HowItWorks() {
               flex={{ base: "none", lg: "1" }}
               w={{ base: "full", lg: "50%" }}
               minW="0"
+              order={{ base: 0, lg: 1 }}
+              display={{ base: "none", lg: "block" }}
             >
               <AnimatePresence mode="wait">
                 <motion.div
