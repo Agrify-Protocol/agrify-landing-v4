@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { pangaia, suisse } from '@/fonts';
+import { pangaia, suisse, inter } from "@/fonts";
 import {
   Accordion,
   AccordionButton,
@@ -8,29 +8,29 @@ import {
   AccordionPanel,
   Box,
   Text,
-} from '@chakra-ui/react';
-import plusIcon from '../../../../public/icons/add.svg';
-import minusIcon from '../../../../public/icons/minus.svg';
-import Image from 'next/image';
-import questions from './mock.json';
-import DashedText from '@/components/common/DashedText';
+} from "@chakra-ui/react";
+import plusIcon from "../../../../public/icons/add.svg";
+import minusIcon from "../../../../public/icons/minus.svg";
+import Image from "next/image";
+import questions from "./mock.json";
+import DashedText from "@/components/common/DashedText";
 
 const Faq = () => {
   return (
     <Box
-      rounded={{ base: '16px', lg: '24px' }}
+      rounded={{ base: "16px", lg: "24px" }}
       // bgColor={'#FFFFFF'}
-      px={{ base: '16px', lg: '60px' }}
-      py={{ base: '16px', lg: '32px' }}
+      px={{ base: "16px", lg: "60px" }}
+      py={{ base: "16px", lg: "32px" }}
       mx={{ base: 4, lg: 8 }}
-      mb={{ base: '40px', lg: '80px' }}
+      mb={{ base: "40px", lg: "80px" }}
     >
-      <Box w={'fit-content'}>
+      <Box w={"fit-content"}>
         <DashedText text="Support" />
       </Box>
       <Box
         display="flex"
-        flexDir={{ base: 'column', lg: 'row' }}
+        flexDir={{ base: "column", lg: "row" }}
         gap={{ base: 10, lg: 0 }}
         justifyContent="space-between"
       >
@@ -38,13 +38,13 @@ const Faq = () => {
           <Text
             fontFamily={pangaia.style.fontFamily}
             fontWeight="200"
-            fontSize={{ base: '32px', lg: '48px' }}
+            fontSize={{ base: "32px", lg: "48px" }}
             letterSpacing="-0.6%"
           >
             FAQ
           </Text>
         </Box>
-        <Box width={{ base: '100%', lg: '630px' }}>
+        <Box width={{ base: "100%", lg: "630px" }}>
           <Accordion allowMultiple>
             {questions.map((item, index) => (
               <AccordionItem
@@ -57,7 +57,7 @@ const Faq = () => {
                 {({ isExpanded }) => (
                   <>
                     <AccordionButton
-                      _hover={{ backgroundColor: 'transparent' }}
+                      _hover={{ backgroundColor: "transparent" }}
                       display="flex"
                       gap={4}
                       px={{ base: 0, lg: 4 }}
@@ -78,8 +78,10 @@ const Faq = () => {
                         flex="1"
                         textAlign="left"
                         fontFamily={suisse.style.fontFamily}
-                        fontWeight="300"
-                        fontSize={{ base: '16px', lg: '18px' }}
+                        fontWeight="500"
+                        fontSize="18px"
+                        lineHeight="120%"
+                        color="#282828"
                         letterSpacing="-2%"
                       >
                         {item.title}
@@ -87,7 +89,11 @@ const Faq = () => {
                     </AccordionButton>
                     <AccordionPanel
                       pb={4}
-                      fontSize={{ base: '16px', lg: '18px' }}
+                      fontFamily={inter.style.fontFamily}
+                      fontWeight="400"
+                      fontSize="16px"
+                      lineHeight="130%"
+                      color="#565656"
                     >
                       {item.answer}
                     </AccordionPanel>
