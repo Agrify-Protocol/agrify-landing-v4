@@ -31,9 +31,9 @@ const Hero = () => {
           as="h2"
           color="brand.primaryBlack"
         >
-          Turn Your Soil Data Into Funding
+          Turn Your Soil Data Into 
           <br />
-          No Loans, No Paperwork
+          Financial Prosperity
         </Text>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
