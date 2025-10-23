@@ -826,7 +826,7 @@ const Video = () => {
         {/* <VideoPlaceHolder /> */}
         <video
           ref={videoRef}
-          src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1754756417/Agrify_Ad_uvggx0.mp4"
+          src="https://res.cloudinary.com/dwwe0y3e2/video/upload/v1761261277/Buyers_xapeyp.mp4"
           controls
           controlsList="nodownload"
           playsInline
