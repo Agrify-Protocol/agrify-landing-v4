@@ -66,7 +66,7 @@ const Hero = () => {
             }
           }}
         >
-          Apply for Funding
+          Start Now
         </Button>
       </Box>
 
