@@ -31,9 +31,9 @@ const Hero = () => {
           as="h2"
           color="brand.primaryBlack"
         >
-          Turn Your Soil Data Into 
+          Turn Great Soil Into
           <br />
-          Financial Prosperity
+          a Global Business
         </Text>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
@@ -46,9 +46,7 @@ const Hero = () => {
           mb={8}
           color="brand.secondaryForeGround"
         >
-          Agrify guides farmers with propriety regenerative technology, scores
-          your farm&apos;s performance, provides capital for scale and connects you
-          to global buyers.
+         Use AI to improve your soil health, tell your farming story with a blockchain passport, and sell to global buyers.
         </Text>
         <Button
           variant="solid"

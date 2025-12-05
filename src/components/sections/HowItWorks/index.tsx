@@ -23,25 +23,25 @@ const HOW_IT_WORKS_STEPS: Step[] = [
     id: "01",
     title: "Create your Profile",
     description:
-      "Tell us about your crops, location, and goals. Get your Agrify Score.",
+      "Tell us about your farm, crops, and location. This unlocks your Agrify Score.",
   },
   {
     id: "02",
     title: "Follow AI-Guided Tasks",
     description:
-      "Improve your soil, traceability, and export readiness. we show you how step-by-step.",
+      "Use our AI assistant to improve traceability and build a verifiable season record.",
   },
   {
     id: "03",
-    title: "Get Funded Without Collateral",
+    title: "Generate Your Produce Passport",
     description:
-      "We unlock inputs or capital when your score increases. No loans. Just a partnership to prepare you for global sales.",
+      "Your farming data is turned into a digital Produce Passport buyers can trust.",
   },
   {
     id: "04",
-    title: "Sell Through Our Marketplace",
+    title: "Sell on Our Marketplace",
     description:
-      "We bring you buyers. Once they pay, we take our commission and you get paid.",
+     "Get connected to buyers around the world and receive secure payment once they purchase.",
   },
 ];
 
