@@ -334,7 +334,7 @@ const Navbar = () => {
             }}
             onClick={() => scrollToSection("#join-waitlist")}
           >
-            Apply for Funding
+            Start Now
           </Button>
         </Box>
 
@@ -424,7 +424,7 @@ const Navbar = () => {
                   }}
                   onClick={() => handleMobileNavClick("#join-waitlist")}
                 >
-                  Apply for Funding
+                Start Now
                 </Button>
               </List>
             </DrawerBody>
