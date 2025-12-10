@@ -13,7 +13,7 @@ const Hero = () => {
       pt={{ base: 16, lg: 36 }}
       // px={{ base: 4, lg: 12 }}
       mx={{ base: 4, lg: 8 }}
-      bg="white" 
+      bg="white"
     >
       <Box
         maxW="954px"
@@ -32,8 +32,7 @@ const Hero = () => {
           color="brand.primaryBlack"
         >
           Turn Great Soil Into
-          <br />
-          a Global Business
+          <br />a Global Business
         </Text>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
@@ -46,9 +45,10 @@ const Hero = () => {
           mb={8}
           color="brand.secondaryForeGround"
         >
-         Use AI to improve your soil health, tell your farming story with a blockchain passport, and sell to global buyers.
+          Use AI to improve your soil health, tell your farming story with a
+          blockchain passport, and sell to global buyers.
         </Text>
-        <Button
+        {/* <Button
           variant="solid"
           px="24px"
           py="12px"
@@ -67,10 +67,26 @@ const Hero = () => {
           }}
         >
           Start Now
-        </Button>
+        </Button> */}
+        <a
+          href="https://farmer.agrifyafrica.xyz/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            variant="solid"
+            px="24px"
+            py="12px"
+            borderRadius="32px"
+            fontWeight="normal"
+            bg="brand.green"
+            color="white"
+          >
+            Start Now
+          </Button>
+        </a>
       </Box>
 
-      
       <Box display={{ base: "none", md: "block" }}>
         <Image
           src={heroDesktop}
@@ -79,10 +95,9 @@ const Hero = () => {
         />
       </Box>
 
-      
       <Box display={{ base: "block", md: "none" }}>
         <Image
-          src={heroMobile} 
+          src={heroMobile}
           alt="Agrify Hero - Farmers using technology"
           style={{ borderRadius: "24px", width: "100%", height: "auto" }}
         />

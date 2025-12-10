@@ -8,7 +8,7 @@ import * as React from 'react';
 export interface TooltipProps extends Omit<ChakraTooltipProps, 'children'> {
   showArrow?: boolean;
   portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement>;
+  portalRef?: React.RefObject<HTMLElement | null>;
   content: string;
   disabled?: boolean;
   children: React.ReactNode;

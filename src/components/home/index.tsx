@@ -20,7 +20,7 @@ const HomeComponent = () => {
       <Features />
       
       <Video />
-      <JoinForm />
+      {/* <JoinForm /> */}
       <Faq />
       <Footer />
     </div>
