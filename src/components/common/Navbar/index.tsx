@@ -74,7 +74,7 @@ const Navbar = () => {
           </Link>
           <Box>
             <List mx={"0"} display="flex" gap={4}>
-              <ListItem
+              {/* <ListItem
                 _hover={{
                   textColor: "brand.green",
                 }}
@@ -82,19 +82,19 @@ const Navbar = () => {
                 onClick={() => scrollToSection("#features")}
               >
                 <Text>Features</Text>
-              </ListItem>
-              {/* <ListItem
+              </ListItem> */}
+              <ListItem
                 _hover={{
                   textColor: "brand.green",
                 }}
                 cursor="pointer"
                 as="a"
-                href="https://marketplace.agrifyafrica.xyz/marketplace"
+                href="https://marketplace.agrifyafrica.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Text>Marketplace</Text>
-              </ListItem> */}
+              </ListItem>
             </List>
           </Box>
           {/* <Button
@@ -186,7 +186,7 @@ const Navbar = () => {
                 </Box>
               </Box>
               <List mx={"0"} display="flex" gap={4} flexDirection="column">
-                <ListItem
+                {/* <ListItem
                   _hover={{
                     textColor: "brand.green",
                   }}
@@ -194,15 +194,15 @@ const Navbar = () => {
                   onClick={() => handleMobileNavClick("#features")}
                 >
                   <Text>Features</Text>
-                </ListItem>
-                {/* <ListItem
+                </ListItem> */}
+                <ListItem
                   as="a"
-                  href="https://marketplace.agrifyafrica.xyz/marketplace"
+                  href="https://marketplace.agrifyafrica.xyz"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Text>Marketplace</Text>
-                </ListItem> */}
+                </ListItem>
                 <Button
                   variant="outline"
                   style={{

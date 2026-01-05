@@ -33,7 +33,7 @@ const Footer = () => {
             color={"#A5A5A5"}
             lineHeight={"140%"}
           >
-          Agrify is an AI-powered financing engine and escrow marketplace that turns farm data into growth capital. We score farmers on soil health, harvest performance, and export readiness, then offer profit-share financing—no interest, just upside. Financed crops are listed on our traceable marketplace: every shipment carries a digital passport, buyer payments are held in escrow, and repayment is automatic. Farmers scale with fair capital. Buyers get verified, sustainably grown, and traceable supply. Every trade is faster, safer, and export-ready.
+          Agrify helps farmers sell their produce to international buyers with full traceability. Our AI guides you through simple on-farm tasks and automatically creates a Produce Passport that proves how your crops were grown. Every payment is secured in escrow and every trade is transparent. Farmers get access to premium buyers. Buyers get trusted, traceable supply.
           </Text>
 
           <Flex
