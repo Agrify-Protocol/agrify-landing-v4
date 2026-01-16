@@ -58,8 +58,8 @@ const STEP_IMAGES = [
   },
   {
     id: "03",
-    src: "/images/step-three.webp",
-    alt: "Get Funded Without Collateral",
+    src: "/images/cassava.svg",
+    alt: "Generate Your Produce Passport",
   },
   {
     id: "04",
