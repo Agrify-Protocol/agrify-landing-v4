@@ -58,7 +58,7 @@ const STEP_IMAGES = [
   },
   {
     id: "03",
-    src: "/images/Cassava.png",
+    src: "/images/Cassava.webp",
     alt: "Generate Your Produce Passport",
   },
   {
