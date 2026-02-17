@@ -89,7 +89,7 @@ const Navbar = () => {
                 }}
                 cursor="pointer"
                 as="a"
-                href="https://marketplace.agrifyafrica.xyz"
+                href="https://marketplace.agrify.earth"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -109,7 +109,7 @@ const Navbar = () => {
             Start Now
           </Button> */}
           <a
-            href="https://farmer.agrifyafrica.xyz/"
+            href="https://farmer.agrify.earth"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -197,7 +197,7 @@ const Navbar = () => {
                 </ListItem> */}
                 <ListItem
                   as="a"
-                  href="https://marketplace.agrifyafrica.xyz"
+                  href="https://marketplace.agrify.earth"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -212,7 +212,7 @@ const Navbar = () => {
                   }}
                   onClick={() => {
                     window.open(
-                      "https://farmer.agrifyafrica.xyz/",
+                      "https://farmer.agrify.earth",
                       "_blank",
                       "noopener"
                     );

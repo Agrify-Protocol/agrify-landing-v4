@@ -69,7 +69,7 @@ const Hero = () => {
           Start Now
         </Button> */}
         <a
-          href="https://farmer.agrifyafrica.xyz/"
+          href="https://farmer.agrify.earth"
           target="_blank"
           rel="noopener noreferrer"
         >
