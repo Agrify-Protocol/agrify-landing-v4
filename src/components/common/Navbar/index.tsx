@@ -106,12 +106,10 @@ const Navbar = () => {
             }}
             onClick={() => scrollToSection("#join-waitlist")}
           >
-            Start Now
+            Request A Demo
           </Button> */}
           <a
-            href="https://farmer.agrify.earth"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:contactagrify@gmail.com"
           >
             <Button
               variant="outline"
@@ -121,7 +119,7 @@ const Navbar = () => {
                 fontWeight: "normal",
               }}
             >
-              Start Now
+              Request A Demo
             </Button>
           </a>
         </Box>
@@ -211,14 +209,10 @@ const Navbar = () => {
                     fontWeight: "normal",
                   }}
                   onClick={() => {
-                    window.open(
-                      "https://farmer.agrify.earth",
-                      "_blank",
-                      "noopener"
-                    );
+                    window.location.href = "mailto:contactagrify@gmail.com";
                   }}
                 >
-                  Start Now
+                  Request A Demo
                 </Button>
 
                

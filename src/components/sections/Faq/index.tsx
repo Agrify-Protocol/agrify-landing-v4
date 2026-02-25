@@ -7,13 +7,13 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Text,
 } from "@chakra-ui/react";
 import plusIcon from "../../../../public/icons/add.svg";
 import minusIcon from "../../../../public/icons/minus.svg";
 import Image from "next/image";
 import questions from "./mock.json";
-import DashedText from "@/components/common/DashedText";
 
 const Faq = () => {
   return (
@@ -25,9 +25,22 @@ const Faq = () => {
       mx={{ base: 4, lg: 8 }}
       mb={{ base: "40px", lg: "80px" }}
     >
-      <Box w={"fit-content"}>
+      {/* <Box w={"fit-content"}>
         <DashedText text="Support" />
-      </Box>
+      </Box> */}
+      <Button
+        as="a"
+        href="mailto:contactagrify@gmail.com"
+        variant="solid"
+        px="24px"
+        py="12px"
+        borderRadius="32px"
+        fontWeight="normal"
+        bg="brand.green"
+        color="white"
+      >
+        Request A Demo
+      </Button>
       <Box
         display="flex"
         flexDir={{ base: "column", lg: "row" }}

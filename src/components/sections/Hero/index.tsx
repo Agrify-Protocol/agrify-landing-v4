@@ -69,9 +69,9 @@ const Hero = () => {
           Start Now
         </Button> */}
         <a
-          href="https://farmer.agrify.earth"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="mailto:contactagrify@gmail.com"
+          // target="_blank"
+          // rel="noopener noreferrer"
         >
           <Button
             variant="solid"
@@ -82,7 +82,7 @@ const Hero = () => {
             bg="brand.green"
             color="white"
           >
-            Start Now
+            Request A Demo
           </Button>
         </a>
       </Box>
