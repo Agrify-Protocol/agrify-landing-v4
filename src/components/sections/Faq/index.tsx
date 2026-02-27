@@ -39,7 +39,7 @@ const Faq = () => {
         bg="brand.green"
         color="white"
       >
-        Request A Demo
+        Request Demo
       </Button>
       <Box
         display="flex"

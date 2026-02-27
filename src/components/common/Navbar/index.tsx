@@ -106,7 +106,7 @@ const Navbar = () => {
             }}
             onClick={() => scrollToSection("#join-waitlist")}
           >
-            Request A Demo
+            Request Demo
           </Button> */}
           <a
             href="mailto:contactagrify@gmail.com"
@@ -119,7 +119,7 @@ const Navbar = () => {
                 fontWeight: "normal",
               }}
             >
-              Request A Demo
+              Request Demo
             </Button>
           </a>
         </Box>
@@ -212,7 +212,7 @@ const Navbar = () => {
                     window.location.href = "mailto:contactagrify@gmail.com";
                   }}
                 >
-                  Request A Demo
+                  Request Demo
                 </Button>
 
                

@@ -31,8 +31,8 @@ const Hero = () => {
           as="h2"
           color="brand.primaryBlack"
         >
-          Turn Great Soil Into
-          <br />a Global Business
+          Enhance The Value of
+          <br />Your Harvest With AI
         </Text>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
@@ -82,7 +82,7 @@ const Hero = () => {
             bg="brand.green"
             color="white"
           >
-            Request A Demo
+            Request Demo
           </Button>
         </a>
       </Box>
