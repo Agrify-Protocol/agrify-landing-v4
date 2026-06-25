@@ -31,7 +31,7 @@ const Hero = () => {
           as="h2"
           color="brand.primaryBlack"
         >
-          Enhance The Value of
+          Enhance The Traceability of
           <br />Your Harvest With AI
         </Text>
         <Text
@@ -45,8 +45,7 @@ const Hero = () => {
           mb={8}
           color="brand.secondaryForeGround"
         >
-          Use AI to improve your soil health, tell your farming story with a
-          blockchain passport, and sell to global buyers.
+          Tell your farming story with a produce passport and unlock global buyers as well as financiers.
         </Text>
         {/* <Button
           variant="solid"
