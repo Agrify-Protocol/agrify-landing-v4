@@ -23,7 +23,7 @@ const Hero = () => {
         px={{ base: 4, lg: 0 }}
       >
         <Text
-          fontSize={{ base: "32px", lg: "48px" }}
+          fontSize={{ base: "30px", lg: "48px" }}
           fontFamily="var(--font-pangaia)"
           fontWeight="200"
           lineHeight={{ base: "44.8px", lg: "57.6px" }}
